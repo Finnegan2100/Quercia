@@ -6,8 +6,8 @@ var Quercia = (function(canvasId) {
     return {
 
         setCanvasDimensions: function(w,h) {
-            canvas.style.width = w || "300px";
-            canvas.style.height = h || "300px";
+            canvas.width = w || 200;
+            canvas.height = h || 200;
         },
         getCanvasDimensions: function() {
             var canvasObject = {
@@ -32,7 +32,29 @@ var Quercia = (function(canvasId) {
             context.fillStyle = color || "#000";
             context.font = message.length + "px";
             context.fillText(message,100,75);
-        }    
+        },
+        drawCircle: function(x,y,diameter,color,stroke) {
+            
+            /*
+            stroke = stroke || false;
+            
+            if (!stroke) {
+                context.strokeStyle = null;
+                context.fillStyle = color;
+            } else {
+                context.fillStyle = undefined;
+                context.strokeStyle = color;
+            }
+            */
+            context.arc(x,y,diameter / 2,0,2 * Math.PI);
+            context.fill();
+        },
+        drawRect: function(x,y,w,h,color) {
+            
+            context.fillStyle = color;
+            context.fillRect(x,y,w,h);
+            context.fill();
+        }
     }
     
 })("myCanvas");
@@ -40,9 +62,11 @@ var Quercia = (function(canvasId) {
     
 // EXAMPLES....
     
-Quercia.setCanvasDimensions("400px","400px");
+Quercia.setCanvasDimensions(400,400);
 Quercia.setBGColor("#ff0");
 Quercia.removeInitialMargins();
 Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
 console.log(Quercia.getCanvasDimensions());
+Quercia.drawCircle(170,170,200,"#f00",true);
+Quercia.drawRect(10,10,50,50,"#f00");
 
