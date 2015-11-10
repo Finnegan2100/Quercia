@@ -46,13 +46,46 @@ var Quercia = (function(canvasId) {
                 context.strokeStyle = color;
             }
             */
+            context.save();
+            context.fillStyle = color;
             context.arc(x,y,diameter / 2,0,2 * Math.PI);
             context.fill();
+            context.restore();
         },
         drawRect: function(x,y,w,h,color) {
             
+            context.save();
             context.fillStyle = color;
             context.fillRect(x,y,w,h);
+            context.fill();
+            context.restore();
+        },
+        drawTriangle: function(x1,y1,x2,y2,x3,y3,color) {
+        
+            context.save();
+            context.fillStyle = color;
+            context.moveTo(x1,y1);
+            context.lineTo(x2,y2);
+            context.lineTo(x3,y3);
+            context.fill();
+            context.closePath();
+            context.restore();
+        },
+        drawStar: function(x,y,length,color) {
+            
+            context.translate(x, y);
+            context.rotate((Math.PI * 1 / 10));
+
+            for (var i = 5; i--;) {
+                context.lineTo(0, length);
+                context.translate(0, length);
+                context.rotate((Math.PI * 2 / 10));
+                context.lineTo(0, -length);
+                context.translate(0, -length);
+                context.rotate(-(Math.PI * 6 / 10));
+            }
+            context.lineTo(0, length);
+            context.closePath();
             context.fill();
         }
     }
@@ -67,6 +100,8 @@ Quercia.setBGColor("#ff0");
 Quercia.removeInitialMargins();
 Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
 console.log(Quercia.getCanvasDimensions());
-Quercia.drawCircle(170,170,200,"#f00",true);
+//Quercia.drawCircle(170,170,200,"#f00",true);
 Quercia.drawRect(10,10,50,50,"#f00");
+Quercia.drawTriangle(10,10,50,10,50,80,"#00f");
+Quercia.drawStar(200,300,30,"#f00");
 
