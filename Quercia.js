@@ -16,6 +16,15 @@ var Quercia = (function(canvasId) {
             };
             return canvasObject;
         },  
+        centerCanvas: function() {
+            var halfCanvasWidth = canvas.width;
+            var halfCanvasHeight = canvas.height;
+            var halfWindowWidth = window.innerWidth / 2;
+            var halfWindowHeight = window.innerHeight / 2;
+            
+            canvas.style.marginLeft = (halfWindowWidth) - (halfCanvasWidth / 2).toString() + "px";
+            canvas.style.marginTop = (halfWindowHeight) - (halfCanvasHeight / 2).toString() + "px";
+        },
         setBGColor: function(val) {
             canvas.style.backgroundColor = val;
         },
@@ -103,10 +112,8 @@ var Quercia = (function(canvasId) {
 
     
 // EXAMPLES....
-
-console.log(Quercia.drawImage);
     
-Quercia.setCanvasDimensions(400,400);
+Quercia.setCanvasDimensions(800,600);
 Quercia.setBGColor("#ff0");
 Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
 //console.log(Quercia.getCanvasDimensions());
@@ -115,5 +122,6 @@ Quercia.drawRect(10,10,200,50,"#f00");
 Quercia.drawTriangle(10,10,50,10,50,80,"#00f");
 Quercia.drawStar(200,300,30,"#f00");
 Quercia.drawImage("bloop","BenGreen.jpg",250,200,100,100);
+Quercia.centerCanvas();
 
 
