@@ -69,7 +69,8 @@ var Quercia = (function(canvasId) {
             context.restore();
             
              var circle = {id: name, x: x, y: y, diameter: diameter, 
-                        color: color, stroke: stroke};
+                        color: color, stroke: stroke, type: "circle",
+                         order: this.Sprites.length};
             
             this.Sprites.push(circle); 
         },
@@ -82,11 +83,12 @@ var Quercia = (function(canvasId) {
             context.restore();
             
             var rect = {id: name, x: x, y: y, w: w, h: h, 
-                        color: color};
+                        color: color, type: "rect",
+                       order: this.Sprites.length};
             
             this.Sprites.push(rect);     
         },
-        drawTriangle: function(x1,y1,x2,y2,x3,y3,color, name) {
+        drawTri: function(x1,y1,x2,y2,x3,y3,color, name) {
         
             context.save();
             context.fillStyle = color;
@@ -99,7 +101,8 @@ var Quercia = (function(canvasId) {
             context.restore();
             
             var tri = {id: name, x1: x1, y1: y1, x2: x2, y2: y2,
-                        y3: y3, color: color};
+                        y3: y3, color: color, type: "tri",
+                        order: this.Sprites.length};
             
             this.Sprites.push(tri); 
         },
@@ -124,7 +127,8 @@ var Quercia = (function(canvasId) {
             context.restore();
             
             var star = {id: name, x: x, y: y, length: length, 
-                        color: color};
+                        color: color, type: "star",
+                        order: this.Sprites.length};
             
             this.Sprites.push(star);
         },
@@ -141,7 +145,7 @@ var Quercia = (function(canvasId) {
         getSpriteById: function(id) {
     
             for (var i in this.Sprites) {
-                if(this.Sprites[i].id === id) {
+                if (this.Sprites[i].id === id) {
                     return this.Sprites[i];
                 }
             }
@@ -149,18 +153,44 @@ var Quercia = (function(canvasId) {
         removeSprite: function(id) {
             
             for (var i in this.Sprites) {
-                if(this.Sprites[i].id === id) {
+                if (this.Sprites[i].id === id) {
                     this.Sprites.splice(i, 1);
                 }
             }
+        },
+        removeAllSprites: function() {
+            
+            this.Sprites = [];
+            context.clearRect(0,0,canvas.width,canvas.height);
+            
         },
         createSprite: function(type,id) {
                         
             switch (type) {
                 case "tri":
-                return this.drawTriangle(10,10,20,10,10,20,"#000",id);
+                return this.drawTri(400,400,420,410,410,420,"#fff",id);
+                break; 
+                case "rect":
+                return this.drawRect(500,400,20,20,"#fff",id);
                 break;
+                case "circle":
+                return this.drawCircle(100,100,300,"#f00",false,id);
+                break;     
             }       
+        },
+        render: function() {
+            
+            for (var i in this.Sprites) { 
+                if (this.Sprites[i].type === "tri") {
+                    Quercia.drawTri(this.Sprites[i].id);
+                }
+                if (this.Sprites[i].type === "rect") {
+                    Quercia.drawRect(this.Sprites[i].id);
+                }
+                if (this.Sprites[i].type === "circle") {
+                    Quercia.drawCircle(this.Sprites[i].id);
+                }
+            }
         }
     }
     
@@ -178,18 +208,23 @@ Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
 Quercia.drawCircle(170,170,100,"#f00",false,"myCircle1");
 Quercia.drawRect(10,10,200,50,"#f00","myRect");
 Quercia.drawRect(320,300,200,50,"#f00","myRect2");
-Quercia.drawTriangle(10,10,50,10,50,80,"#00f","myTri");
+Quercia.drawTri(10,10,50,10,50,80,"#00f","myTri");
 Quercia.drawStar(200,300,30,"#f00","myStar");
 Quercia.drawImage("bloop","BenGreen.jpg",250,200,100,100);
 Quercia.centerCanvas();
 //Quercia.getSpriteById("myTri");
 Quercia.drawLine(200,200,300,300,10,"#300","myLine");
-
 Quercia.drawStar(400,120,100,"#ff0","myStar2");
+
 
 //console.log(Quercia.Sprites);
 
-//Quercia.createSprite("tri","poop");
-Quercia.removeSprite("myCircle1");
+Quercia.createSprite("tri","poop");
+Quercia.createSprite("rect","myfabulousRect");
+Quercia.createSprite("circle","oooh!");
+//Quercia.removeSprite("myCircle1");
+
+Quercia.render();
+Quercia.removeAllSprites();
 console.log(Quercia.Sprites);
 
