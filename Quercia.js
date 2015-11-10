@@ -10,9 +10,12 @@ var Quercia = (function(canvasId) {
         
         init: function(w,h,color,centered) {
             
-            Quercia.setCanvasDimensions(w,h);
-            Quercia.setCanvasColor(color);
-            Quercia.centerCanvas();
+            this.setCanvasDimensions(w,h);
+            this.setCanvasColor(color);
+            
+            if (centered) {
+                this.centerCanvas();
+            }
         },
         
         setCanvasDimensions: function(w,h) {
@@ -158,6 +161,36 @@ var Quercia = (function(canvasId) {
                 }
             }
         },
+        getSpriteOrderNum: function(id) {
+            
+            for (var i in this.Sprites) {
+                if (this.Sprites[i].id === id) {
+                    return this.Sprites[i].order;
+                }
+            }
+        },
+        findSpriteOrderNum: function(num) {
+            
+            console.log(num);
+             for (var i in this.Sprites) {
+                if (this.Sprites[i].order === num) {
+                   return true;
+                } else {
+                   return false;
+                }
+            } 
+        },
+        setSpriteOrderNum: function(id,num) {
+            
+            for (var i in this.Sprites) {
+               
+                if (!this.findSpriteOrderNum(num) && this.Sprites[i].id === id) {
+                    console.log(this.Sprites[i].order);
+                    this.Sprites[i].order = num;
+                    
+                }
+            }
+        },
         removeSprite: function(id) {
             
             for (var i in this.Sprites) {
@@ -169,8 +202,12 @@ var Quercia = (function(canvasId) {
         removeAllSprites: function() {
             
             this.Sprites = [];
-            context.clearRect(0,0,canvas.width,canvas.height);
+            this.render();
             
+        },
+        clearCanvas: function() {
+            
+            context.clearRect(0,0,canvas.width,canvas.height);  
         },
         createSprite: function(type,id) {
                         
@@ -183,8 +220,12 @@ var Quercia = (function(canvasId) {
                 break;
                 case "circle":
                 return this.drawCircle(100,100,300,"#f00",false,id);
+                break;
+                case "star":
+                return this.drawStar(200,300,30,"#f00",id);
                 break;     
-            }       
+            } 
+            this.render();
         },
         render: function() {
             
@@ -197,6 +238,9 @@ var Quercia = (function(canvasId) {
                 }
                 if (this.Sprites[i].type === "circle") {
                     Quercia.drawCircle(this.Sprites[i].id);
+                }
+                if (this.Sprites[i].type === "star") {
+                    Quercia.drawStar(this.Sprites[i].id);
                 }
             }
         }
@@ -233,4 +277,8 @@ Quercia.removeAllSprites();
 console.log(Quercia.Sprites);
 */
 
-Quercia.init(800,600,"#bbb");
+Quercia.init(800,600,"#bbb",true);
+Quercia.createSprite("star","myStar");
+Quercia.createSprite("rect","myRect");
+Quercia.setSpriteOrderNum("myStar",1);
+console.log(Quercia.Sprites);
