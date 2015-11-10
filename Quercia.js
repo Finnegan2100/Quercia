@@ -60,13 +60,18 @@ var Quercia = (function(canvasId) {
             context.restore();
                 
         },
-        drawCircle: function(x,y,diameter,color,stroke) {
+        drawCircle: function(x,y,diameter,color,stroke,name) {
      
             context.save();
             context.fillStyle = color;
             context.arc(x,y,diameter / 2,0,2 * Math.PI);
             context.fill();
             context.restore();
+            
+             var circle = {id: name, x: x, y: y, diameter: diameter, 
+                        color: color, stroke: stroke};
+            
+            this.Sprites.push(circle); 
         },
         drawRect: function(x,y,w,h,color,name) {
             
@@ -141,7 +146,15 @@ var Quercia = (function(canvasId) {
                 }
             }
         },
-        Sprite: function(type,id) {
+        removeSprite: function(id) {
+            
+            for (var i in this.Sprites) {
+                if(this.Sprites[i].id === id) {
+                    this.Sprites.splice(i, 1);
+                }
+            }
+        },
+        createSprite: function(type,id) {
                         
             switch (type) {
                 case "tri":
@@ -162,20 +175,21 @@ Quercia.setCanvasDimensions(800,600);
 Quercia.setBGColor("#bbb");
 Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
 //console.log(Quercia.getCanvasDimensions());
-Quercia.drawCircle(170,170,100,"#f00");
+Quercia.drawCircle(170,170,100,"#f00",false,"myCircle1");
 Quercia.drawRect(10,10,200,50,"#f00","myRect");
 Quercia.drawRect(320,300,200,50,"#f00","myRect2");
 Quercia.drawTriangle(10,10,50,10,50,80,"#00f","myTri");
-Quercia.drawStar(200,300,30,"#f00");
+Quercia.drawStar(200,300,30,"#f00","myStar");
 Quercia.drawImage("bloop","BenGreen.jpg",250,200,100,100);
 Quercia.centerCanvas();
-Quercia.getSpriteById("myTri");
+//Quercia.getSpriteById("myTri");
 Quercia.drawLine(200,200,300,300,10,"#300","myLine");
 
-Quercia.drawStar(400,120,100,"#ff0");
+Quercia.drawStar(400,120,100,"#ff0","myStar2");
 
 //console.log(Quercia.Sprites);
 
-Quercia.Sprite("tri","poop");
+//Quercia.createSprite("tri","poop");
+Quercia.removeSprite("myCircle1");
 console.log(Quercia.Sprites);
 
