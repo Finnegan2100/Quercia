@@ -3,9 +3,9 @@ var Quercia = (function(canvasId) {
     var canvas = document.getElementById(canvasId),
         context = canvas.getContext("2d");
     
-    return {
-
-        setCanvasDimensions: function(w,h) {
+    var Ben = {
+        
+         setCanvasDimensions: function(w,h) {
             canvas.width = w || 200;
             canvas.height = h || 200;
         },
@@ -18,10 +18,6 @@ var Quercia = (function(canvasId) {
         },  
         setBGColor: function(val) {
             canvas.style.backgroundColor = val;
-        },
-        removeInitialMargins: function() {
-            //body.style.margin = "0px";
-            //html.style.margin = "0px";
         },
         createInitialHelloText: function(message,color) {
     
@@ -73,6 +69,7 @@ var Quercia = (function(canvasId) {
         },
         drawStar: function(x,y,length,color) {
             
+            context.save();
             context.translate(x, y);
             context.rotate((Math.PI * 1 / 10));
 
@@ -87,21 +84,36 @@ var Quercia = (function(canvasId) {
             context.lineTo(0, length);
             context.closePath();
             context.fill();
+            context.restore();
+        },
+        drawImage(name,src,x,y,w,h) {
+            
+            var name = name || "name";
+            name = new Image();
+            name.src = src;
+            window.onload = function() {
+                context.drawImage(name,x,y,w,h);
+            }
         }
     }
+    
+    return Ben;
     
 })("myCanvas");
 
     
 // EXAMPLES....
+
+console.log(Quercia.drawImage);
     
 Quercia.setCanvasDimensions(400,400);
 Quercia.setBGColor("#ff0");
-Quercia.removeInitialMargins();
 Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
-console.log(Quercia.getCanvasDimensions());
-//Quercia.drawCircle(170,170,200,"#f00",true);
-Quercia.drawRect(10,10,50,50,"#f00");
+//console.log(Quercia.getCanvasDimensions());
+Quercia.drawCircle(170,170,100,"#f00",true);
+Quercia.drawRect(10,10,200,50,"#f00");
 Quercia.drawTriangle(10,10,50,10,50,80,"#00f");
 Quercia.drawStar(200,300,30,"#f00");
+Quercia.drawImage("bloop","BenGreen.jpg",250,200,100,100);
+
 
