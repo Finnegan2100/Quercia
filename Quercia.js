@@ -7,9 +7,17 @@ var Quercia = (function(canvasId) {
         
         Sprites: [],
         
-         setCanvasDimensions: function(w,h) {
-            canvas.width = w || 200;
-            canvas.height = h || 200;
+        
+        init: function(w,h,color,centered) {
+            
+            Quercia.setCanvasDimensions(w,h);
+            Quercia.setCanvasColor(color);
+            Quercia.centerCanvas();
+        },
+        
+        setCanvasDimensions: function(w,h) {
+            canvas.width = w || 0;
+            canvas.height = h || 0;
         },
         getCanvasDimensions: function() {
             var canvasObject = {
@@ -36,7 +44,7 @@ var Quercia = (function(canvasId) {
                 document.documentElement.style.overflow = 'hidden'; 
             }
         },
-        setBGColor: function(val) {
+        setCanvasColor: function(val) {
             canvas.style.backgroundColor = val;
         },
         createInitialHelloText: function(message,color) {
@@ -200,9 +208,9 @@ var Quercia = (function(canvasId) {
 
     
 // EXAMPLES....
-    
+/*    
 Quercia.setCanvasDimensions(800,600);
-Quercia.setBGColor("#bbb");
+Quercia.setCanvasColor("#bbb");
 Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
 //console.log(Quercia.getCanvasDimensions());
 Quercia.drawCircle(170,170,100,"#f00",false,"myCircle1");
@@ -216,15 +224,13 @@ Quercia.centerCanvas();
 Quercia.drawLine(200,200,300,300,10,"#300","myLine");
 Quercia.drawStar(400,120,100,"#ff0","myStar2");
 
-
-//console.log(Quercia.Sprites);
-
 Quercia.createSprite("tri","poop");
 Quercia.createSprite("rect","myfabulousRect");
 Quercia.createSprite("circle","oooh!");
-//Quercia.removeSprite("myCircle1");
 
 Quercia.render();
 Quercia.removeAllSprites();
 console.log(Quercia.Sprites);
+*/
 
+Quercia.init(800,600,"#bbb");
