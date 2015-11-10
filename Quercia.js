@@ -98,7 +98,7 @@ var Quercia = (function(canvasId) {
             
             this.Sprites.push(tri); 
         },
-        drawStar: function(x,y,length,color) {
+        drawStar: function(x,y,length,color,name) {
             
             context.save();
             context.translate(x, y);
@@ -117,8 +117,13 @@ var Quercia = (function(canvasId) {
             context.closePath();
             context.fill();
             context.restore();
+            
+            var star = {id: name, x: x, y: y, length: length, 
+                        color: color};
+            
+            this.Sprites.push(star);
         },
-        drawImage(name,src,x,y,w,h) {
+        drawImage: function(name,src,x,y,w,h) {
             
             var name = name || "name";
             name = new Image();
@@ -128,13 +133,21 @@ var Quercia = (function(canvasId) {
                 context.drawImage(name,x,y,w,h);
             }
         },
-        getSpriteById(id) {
+        getSpriteById: function(id) {
     
             for (var i in this.Sprites) {
                 if(this.Sprites[i].id === id) {
                     return this.Sprites[i];
                 }
             }
+        },
+        Sprite: function(type,id) {
+                        
+            switch (type) {
+                case "tri":
+                return this.drawTriangle(10,10,20,10,10,20,"#000",id);
+                break;
+            }       
         }
     }
     
@@ -159,6 +172,10 @@ Quercia.centerCanvas();
 Quercia.getSpriteById("myTri");
 Quercia.drawLine(200,200,300,300,10,"#300","myLine");
 
+Quercia.drawStar(400,120,100,"#ff0");
+
 //console.log(Quercia.Sprites);
 
+Quercia.Sprite("tri","poop");
+console.log(Quercia.Sprites);
 
