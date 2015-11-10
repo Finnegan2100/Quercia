@@ -191,6 +191,25 @@ var Quercia = (function(canvasId) {
                 }
             }
         },
+        changeSpriteAttribute: function(id,attr,val) {
+            
+            for (var i in this.Sprites) {
+                
+                if (this.Sprites[i].id === id) {
+                    var value = this.Sprites[i];
+                    
+                    for (var j in value) {
+                         if (j === attr) {
+                            this.Sprites[i][j] = val;
+                         }
+                    }
+                }
+            }
+            
+            this.Sprites = [];
+            this.clearCanvas();
+            this.render();
+        },
         removeSprite: function(id) {
             
             for (var i in this.Sprites) {
@@ -252,33 +271,11 @@ var Quercia = (function(canvasId) {
 
     
 // EXAMPLES....
-/*    
-Quercia.setCanvasDimensions(800,600);
-Quercia.setCanvasColor("#bbb");
-Quercia.createInitialHelloText("Welcome to Quercia","#0b0");
-//console.log(Quercia.getCanvasDimensions());
-Quercia.drawCircle(170,170,100,"#f00",false,"myCircle1");
-Quercia.drawRect(10,10,200,50,"#f00","myRect");
-Quercia.drawRect(320,300,200,50,"#f00","myRect2");
-Quercia.drawTri(10,10,50,10,50,80,"#00f","myTri");
-Quercia.drawStar(200,300,30,"#f00","myStar");
-Quercia.drawImage("bloop","BenGreen.jpg",250,200,100,100);
-Quercia.centerCanvas();
-//Quercia.getSpriteById("myTri");
-Quercia.drawLine(200,200,300,300,10,"#300","myLine");
-Quercia.drawStar(400,120,100,"#ff0","myStar2");
-
-Quercia.createSprite("tri","poop");
-Quercia.createSprite("rect","myfabulousRect");
-Quercia.createSprite("circle","oooh!");
-
-Quercia.render();
-Quercia.removeAllSprites();
-console.log(Quercia.Sprites);
-*/
 
 Quercia.init(800,600,"#bbb",true);
 Quercia.createSprite("star","myStar");
 Quercia.createSprite("rect","myRect");
-Quercia.setSpriteOrderNum("myStar",1);
+Quercia.setSpriteOrderNum("myStar",1); //STILL NOT SETTING ORDER NUMBER PROPERLY
+
 console.log(Quercia.Sprites);
+Quercia.changeSpriteAttribute("myStar","id","super squid");
