@@ -49,6 +49,17 @@ var Quercia = (function(canvasId) {
             context.font = message.length + "px";
             context.fillText(message,100,75);
         },
+        drawLine: function (x1,y1,x2,y2,width, color, id) {
+            
+            context.save();
+            context.fillStyle = color;
+            context.lineWidth = width;
+            context.moveTo(x1,y1);
+            context.lineTo(x2,y2);
+            context.stroke();
+            context.restore();
+                
+        },
         drawCircle: function(x,y,diameter,color,stroke) {
      
             context.save();
@@ -77,8 +88,9 @@ var Quercia = (function(canvasId) {
             context.moveTo(x1,y1);
             context.lineTo(x2,y2);
             context.lineTo(x3,y3);
-            context.fill();
             context.closePath();
+            context.fill();
+            
             context.restore();
             
             var tri = {id: name, x1: x1, y1: y1, x2: x2, y2: y2,
@@ -100,6 +112,7 @@ var Quercia = (function(canvasId) {
                 context.translate(0, -length);
                 context.rotate(-(Math.PI * 6 / 10));
             }
+            
             context.lineTo(0, length);
             context.closePath();
             context.fill();
@@ -144,6 +157,7 @@ Quercia.drawStar(200,300,30,"#f00");
 Quercia.drawImage("bloop","BenGreen.jpg",250,200,100,100);
 Quercia.centerCanvas();
 Quercia.getSpriteById("myTri");
+Quercia.drawLine(200,200,300,300,10,"#300","myLine");
 
 //console.log(Quercia.Sprites);
 
