@@ -208,16 +208,24 @@ var Quercia = (function(canvasId) {
             this.Sprites = [];
             this.render();
         },
+        lowerOrderNumbers: function(num) {
+            for (var i in this.Sprites) {
+                if (i >= num) {
+                    this.Sprites[i].order--;
+                }
+            }
+        },
         removeSprite: function(id) {
+            
             for (var i in this.Sprites) {
                 if (this.Sprites[i].id === id) {
                     var num = this.Sprites[i].order;
-                    console.log(num);
                     this.Sprites.splice(num,1);
                     console.log(this.Sprites);
                 }
             }
-            //this.render();
+            this.lowerOrderNumbers(num);
+           // this.render();
         },
         removeAllSprites: function() {
             
@@ -250,22 +258,28 @@ var Quercia = (function(canvasId) {
             
             this.clearCanvas();
             
+            
             for (var i in this.Sprites) { 
                 
                 if (this.Sprites[i].type === "tri") {
-                    console.log("tri!");
-                    Quercia.drawTri(this.Sprites[i].id);
+                    var x = this.Sprites[i].order;
+                    var a = this.Sprites[x];
+                    Quercia.drawTri(a.x1,a.y1,a.x2,a.y2,a.x3,a.y3,a.color,a.id);
                 }
                 else if (this.Sprites[i].type === "rect") {
-                    console.log("rect!");
-                    Quercia.drawRect(this.Sprites[i].id);
+                    var x = this.Sprites[i].order;
+                    var a = this.Sprites[x];
+                    Quercia.drawRect(a.x,a.y,a.w,a.h,a.color,a.id);
                 }
                 else if (this.Sprites[i].type === "circle") {
-                    Quercia.drawCircle(this.Sprites[i].id);
+                    var x = this.Sprites[i].order;
+                    var a = this.Sprites[x];
+                    Quercia.drawCircle(a.x,a.y,a.diameter,a.stroke,a.color,a.id);
                 }
                 else if (this.Sprites[i].type === "star") {
-                    console.log("star!");
-                    Quercia.drawStar(this.Sprites[i].id);
+                    var x = this.Sprites[i].order;
+                    var a = this.Sprites[x];
+                    Quercia.drawStar(a.x,a.y,a.length,a.color,a.id);
                 }
             }
         }
@@ -281,8 +295,8 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Quercia.init(760,300,"#ff69b4",true);
-Quercia.drawStar(100,100,50,"#ffd700","myStar2");
+Quercia.drawStar(100,100,50,"#ffd700","myStar");
 Quercia.drawTri(20,170,150,170,70,250,"#00f","myTri");
-Quercia.drawRect(300,20,200,200,"#f00","henry");
-Quercia.removeSprite("henry");
+Quercia.drawRect(300,20,200,200,"#f00","myRect");
+Quercia.removeSprite("myTri");
 
