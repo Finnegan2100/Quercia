@@ -75,33 +75,37 @@ var Quercia = (function(canvasId) {
                 
         },
         drawCircle: function(x,y,diameter,color,stroke,name) {
-     
+            /*
             context.save();
             context.fillStyle = color;
             context.arc(x,y,diameter / 2,0,2 * Math.PI);
             context.fill();
             context.restore();
-            
+            */
              var circle = {id: name, x: x, y: y, diameter: diameter, 
                         color: color, stroke: stroke, type: "circle",
                          order: this.Sprites.length};
             
             this.Sprites.push(circle); 
+            this.render();
         },
         drawRect: function(x,y,w,h,color,name) {
+            /*
             context.save();
             context.fillStyle = color;
             context.fillRect(x,y,w,h);
             context.restore();
             context.fill();
-            
+            */
             var rect = {id: name, x: x, y: y, w: w, h: h, 
                         color: color, type: "rect",
                        order: this.Sprites.length};
             
-            this.Sprites.push(rect);     
+            this.Sprites.push(rect);
+            this.render();
         },
         drawTri: function(x1,y1,x2,y2,x3,y3,color, name) {
+            /*
             context.save();
             context.moveTo(x1,y1);
             context.lineTo(x2,y2);
@@ -109,15 +113,17 @@ var Quercia = (function(canvasId) {
             context.closePath();
             context.restore();
             context.fill();
-            
+            */
             var tri = {x1: x1, y1: y1, x2: x2, y2: y2,
-                        x2: x2, y3: y3, color: color, type: "tri",
+                        x3: x3, y3: y3, color: color, type: "tri",
                         order: this.Sprites.length, id: name};
             
             
-            this.Sprites.push(tri); 
+            this.Sprites.push(tri);
+            this.render();
         },
         drawStar: function(x,y,length,color,name) {
+            /*
             context.fillStyle = color;
             
             context.save();
@@ -137,13 +143,14 @@ var Quercia = (function(canvasId) {
             context.closePath();
             context.restore();
             context.fill();
-
+            */
             
-            var star = {id: name, x: x, y: y, length: length, 
-                        color: color, type: "star",
+            var star = {x: x, y: y, length: length, 
+                        color: color, id: name,  type: "star",
                         order: this.Sprites.length};
             
             this.Sprites.push(star);
+            this.render();
         },
         drawImage: function(name,src,x,y,w,h) {
             
@@ -199,9 +206,7 @@ var Quercia = (function(canvasId) {
                     
                     for (var j in value) {
                          if (j === attr) {
-                         
                             this.Sprites[i][j] = val;
-                             //console.log(this.Sprites[i][j]);
                          }
                     }
                 }
@@ -277,22 +282,61 @@ var Quercia = (function(canvasId) {
                 if (this.Sprites[i].type === "tri") {
                     var x = this.Sprites[i].order;
                     var a = this.Sprites[x];
-                    Quercia.drawTri(a.x1,a.y1,a.x2,a.y2,a.x3,a.y3,a.color,a.id);
+                   
+                    context.save();
+                    context.fillStyle = a.color;
+                    context.moveTo(a.x1,a.y1);
+                    context.lineTo(a.x2,a.y2);
+                    context.lineTo(a.x3,a.y3);
+                    context.closePath();
+                    context.restore();
+                    context.fill();
+                    //Quercia.drawTri(a.x1,a.y1,a.x2,a.y2,a.x3,a.y3,a.color,a.id);
                 }
                 else if (this.Sprites[i].type === "rect") {
                     var x = this.Sprites[i].order;
                     var a = this.Sprites[x];
-                    Quercia.drawRect(a.x,a.y,a.w,a.h,a.color,a.id);
+                    context.save();
+                    context.fillStyle = a.color;
+                    context.fillRect(a.x,a.y,a.w,a.h);
+                    context.restore();
+                    context.fill();
+                    //Quercia.drawRect(a.x,a.y,a.w,a.h,a.color,a.id);
                 }
                 else if (this.Sprites[i].type === "circle") {
                     var x = this.Sprites[i].order;
                     var a = this.Sprites[x];
-                    Quercia.drawCircle(a.x,a.y,a.diameter,a.stroke,a.color,a.id);
+                    context.save();
+                    context.fillStyle = a.color;
+                    context.arc(a.x,a.y,a.diameter / 2,0,2 * Math.PI);
+                    context.fill();
+                    context.restore();
+                    //Quercia.drawCircle(a.x,a.y,a.diameter,a.stroke,a.color,a.id);
                 }
                 else if (this.Sprites[i].type === "star") {
                     var x = this.Sprites[i].order;
                     var a = this.Sprites[x];
-                    Quercia.drawStar(a.x,a.y,a.length,a.color,a.id);
+                    
+                    context.fillStyle = a.color;
+            
+                    context.save();
+                    context.translate(a.x, a.y);
+                    context.rotate((Math.PI * 1 / 10));
+
+                    for (var i = 5; i--;) {
+                        context.lineTo(0, a.length);
+                        context.translate(0, a.length);
+                        context.rotate((Math.PI * 2 / 10));
+                        context.lineTo(0, -a.length);
+                        context.translate(0, -a.length);
+                        context.rotate(-(Math.PI * 6 / 10));
+                    }
+            
+                    context.lineTo(0, a.length);
+                    context.closePath();
+                    context.restore();
+                    context.fill();
+                    //Quercia.drawStar(a.x,a.y,a.length,a.color,a.id);
                 }
             }
         }
@@ -308,13 +352,12 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Quercia.init(760,300,"#ff69b4",true);
-Quercia.drawStar(100,100,50,"#ffd700","myStar");
-Quercia.drawTri(20,170,150,170,70,250,"#00f","myTri");
-Quercia.drawRect(300,20,200,200,"#f00","myRect");
-//Quercia.removeSprite("myTri");
-//Quercia.setSpriteAttribute("myRect","x",444);
-Quercia.setSpriteAttribute("myRect","y","zebra");
+//Quercia.drawRect(300,40,200,200,"#f00","myRect");
+//Quercia.drawRect(100,100,70,70,"#0f0","myRect2");
+
+//Quercia.drawCircle(500,200,100,"0bb","myCircle1");
+Quercia.drawStar(100,200,100,"#ddd","myStar1");
+Quercia.drawTri(500,200,510,250,240,510,"#f00","myTri1");
 console.log(Quercia.Sprites);
-console.log(Quercia.getSpriteAttribute("myRect","y"));
-//console.log(Quercia.getSpriteAttribute("myRect","x"));
+
 
