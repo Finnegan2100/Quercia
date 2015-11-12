@@ -190,7 +190,7 @@ var Quercia = (function(canvasId) {
                 }
             }
         },
-        changeSpriteAttribute: function(id,attr,val) {
+        setSpriteAttribute: function(id,attr,val) {
             
             for (var i in this.Sprites) {
                 
@@ -207,6 +207,22 @@ var Quercia = (function(canvasId) {
             
             this.Sprites = [];
             this.render();
+        },
+        getSpriteAttribute: function(id,attr) {
+            
+            for (var i in this.Sprites) {
+                
+                if (this.Sprites[i].id === id) {
+                    var value = this.Sprites[i];
+                    
+                    for (var j in value) {
+                        console.log(j,value);
+                         if (j === attr) {
+                            return this.Sprites[i][j];
+                         }
+                    }
+                }
+            }
         },
         lowerOrderNumbers: function(num) {
             for (var i in this.Sprites) {
@@ -299,4 +315,7 @@ Quercia.drawStar(100,100,50,"#ffd700","myStar");
 Quercia.drawTri(20,170,150,170,70,250,"#00f","myTri");
 Quercia.drawRect(300,20,200,200,"#f00","myRect");
 Quercia.removeSprite("myTri");
+Quercia.setSpriteAttribute("myRect","x",444);
+Quercia.getSpriteAttribute("myRect","x");
+console.log(Quercia.getSpriteAttribute("myRect","x"));
 
