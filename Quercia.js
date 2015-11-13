@@ -86,6 +86,11 @@ var Quercia = (function(canvasId) {
                 context.moveTo(x1,y1);
                 context.bezierCurveTo(x1,y1,x2,y2,x3,y3);
                 context.stroke();
+            } else if (curveType === "quadratic") {
+                 
+                context.beginPath();
+                context.quadraticCurveTo(x1,y1,x2,y2);
+                context.stroke();  
             }
             
             context.restore();
@@ -335,7 +340,7 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Quercia.init(760,300,"#ff69b4",true);
-Quercia.drawCurve(20,50,250,0,300,300,"bezier",10,"#f00");
+Quercia.drawCurve(20,50,250,200,300,300,"quadratic",10,"#f00");
 
 
 
