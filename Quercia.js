@@ -7,6 +7,7 @@ var Quercia = (function(canvasId) {
     var Ben = {
         
         Sprites: [],
+        Images: [],
         
         
         init: function(w,h,color,centered) {
@@ -253,6 +254,90 @@ var Quercia = (function(canvasId) {
             } 
             this.render();
         },
+        rotate: function(degrees) {
+            
+            this.clearCanvas();
+            
+            for (var i in this.Sprites) { 
+                
+                switch (this.Sprites[i].type) {
+                        
+                    case "tri":
+                        
+                    var x = this.Sprites[i].order;
+                    var a1 = this.Sprites[x];
+    
+                    context.rotate((Math.PI / 180) * degrees);    
+                    //context.save();
+                    context.fillStyle = a1.color;
+                    context.moveTo(a1.x1,a1.y1);
+                    context.lineTo(a1.x2,a1.y2);
+                    context.lineTo(a1.x3,a1.y3);
+                    context.closePath();
+                    //context.restore();
+                    context.fill();
+                    break;
+                    
+                    case "rect":    
+                        
+                    var x = this.Sprites[i].order;
+                    var a2 = this.Sprites[x];
+                        
+                    var cx = a2.x + 0.5 * a2.w,
+                        cy = a2.y + 0.5 * a2.h;
+                           
+                    context.save();
+                    context.translate(cx, cy);       
+                    context.rotate((Math.PI / 180) * degrees);
+                    context.translate(-cx, -cy);       
+                    context.fillStyle = a2.color;
+                    context.fillRect(a2.x,a2.y,a2.w,a2.h);
+                    context.restore();
+                    context.fill();
+                    break;
+                        
+                    case "circle":
+                      
+                    var x = this.Sprites[i].order;
+                    var a3 = this.Sprites[x];
+        
+                    //context.save();
+                    context.rotate(0,degrees);       
+                    context.fillStyle = a3.color;
+                    context.arc(a3.x,a3.y,a3.diameter / 2,0,2 * Math.PI);
+                    context.fill();
+                    //context.restore();
+                    break;
+           
+                    case "star":
+       
+                    var x = this.Sprites[i].order;
+                    var a4 = this.Sprites[x];
+            
+                    context.fillStyle = a4.color;
+                    context.save();
+                    
+                    context.rotate(0,degrees);       
+                    context.translate(a4.x, a4.y);
+                    context.rotate((Math.PI * 1 / 10));
+
+                    for (var j = 5; j--;) {
+                        context.lineTo(0, a4.length);
+                        context.translate(0, a4.length);
+                        context.rotate((Math.PI * 2 / 10));
+                        context.lineTo(0, -a4.length);
+                        context.translate(0, -a4.length);
+                        context.rotate(-(Math.PI * 6 / 10));
+                    }
+            
+                    context.lineTo(0, a4.length);
+                    context.closePath();
+                    context.restore();
+                    context.fill();
+                    break;
+                }
+            }
+        },
         render: function() {
             
             this.clearCanvas();
@@ -340,7 +425,10 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Quercia.init(760,300,"#ff69b4",true);
-Quercia.drawCurve(20,50,250,200,300,300,"quadratic",10,"#f00");
+Quercia.drawRect(100,100,60,60,"#f00","myRect");
+Quercia.rotate(30);
+
+
 
 
 
