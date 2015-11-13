@@ -66,7 +66,7 @@ var Quercia = (function(canvasId) {
         drawLine: function (x1,y1,x2,y2,width, color) {
             
             context.save();
-            context.fillStyle = color;
+            context.strokeStyle = color;
             context.lineWidth = width;
             context.moveTo(x1,y1);
             context.lineTo(x2,y2);
@@ -74,10 +74,26 @@ var Quercia = (function(canvasId) {
             context.restore();
                 
         },
-        drawCircle: function(x,y,diameter,color,stroke,name) {
+        drawCurve: function (x1,y1,x2,y2,x3,y3,curveType,width,color) {
+          
+            context.save();
+            context.strokeStyle = color;
+            context.lineWidth = width;
+            
+            if (curveType === "bezier") {
+              
+                context.beginPath();
+                context.moveTo(x1,y1);
+                context.bezierCurveTo(x1,y1,x2,y2,x3,y3);
+                context.stroke();
+            }
+            
+            context.restore();
+        },
+        drawCircle: function(x,y,diameter,color,name) {
         
              var circle = {id: name, x: x, y: y, diameter: diameter, 
-                        color: color, stroke: stroke, type: "circle",
+                        color: color, type: "circle",
                          order: this.Sprites.length};
             
             this.Sprites.push(circle); 
@@ -170,6 +186,7 @@ var Quercia = (function(canvasId) {
                     }
                 }
             }
+            this.render();
         },
         getSpriteAttribute: function(id,attr) {
             
@@ -244,19 +261,19 @@ var Quercia = (function(canvasId) {
                     var x = this.Sprites[i].order;
                     var a1 = this.Sprites[x];
                    
-                    context.save();
+                    //context.save();
                     context.fillStyle = a1.color;
                     context.moveTo(a1.x1,a1.y1);
                     context.lineTo(a1.x2,a1.y2);
                     context.lineTo(a1.x3,a1.y3);
                     context.closePath();
-                    context.restore();
+                    //context.restore();
                     context.fill();
                     break;
                     
-                    case "rect":
+                    case "rect":    
                         
-                    var x2 = this.Sprites[i].order;
+                    var x = this.Sprites[i].order;
                     var a2 = this.Sprites[x];
                     
                     context.save();
@@ -267,24 +284,25 @@ var Quercia = (function(canvasId) {
                     break;
                         
                     case "circle":
-                        
-                    var x3 = this.Sprites[i].order;
-                    var a3 = this.Sprites[x3];
-                    
-                    context.save();
+                      
+                    var x = this.Sprites[i].order;
+                    var a3 = this.Sprites[x];
+        
+                    //context.save();
                     context.fillStyle = a3.color;
                     context.arc(a3.x,a3.y,a3.diameter / 2,0,2 * Math.PI);
                     context.fill();
-                    context.restore();
+                    //context.restore();
                     break;
            
                     case "star":
        
-                    var x4 = this.Sprites[i].order;
-                    var a4 = this.Sprites[x4];
+                    var x = this.Sprites[i].order;
+                    var a4 = this.Sprites[x];
             
-                    context.save();
                     context.fillStyle = a4.color;
+                    context.save();
+                    
                     context.translate(a4.x, a4.y);
                     context.rotate((Math.PI * 1 / 10));
 
@@ -317,15 +335,7 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Quercia.init(760,300,"#ff69b4",true);
-//Quercia.drawRect(300,40,200,200,"#f00","myRect");
-//Quercia.drawRect(100,100,70,70,"#0f0","myRect2");
-
-//Quercia.drawCircle(500,200,100,"0bb","myCircle1");
-Quercia.drawStar(100,200,100,"#ddd","myStar1");
-Quercia.drawTri(500,200,510,250,240,510,"#f00","myTri1");
-Quercia.setSpriteAttribute("myStar1","x",350);
-Quercia.clearCanvas();
-Quercia.render();
+Quercia.drawCurve(20,50,250,0,300,300,"bezier",10,"#f00");
 
 
 
