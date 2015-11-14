@@ -143,6 +143,18 @@ var Quercia = (function(canvasId) {
                 context.drawImage(name,x,y,w,h);
             }
         },
+        drawAnimation: function(name,src,numFrames,sX,sY,sW,sH,x,y,w,h) {
+            
+            var name = name || "name";
+            name = new Image();
+            name.src = src;
+            
+            console.log(name.naturalWidth);
+            
+            window.onload = function() {
+                context.drawImage(name,sX,sY,sW,sH,x,y,w,h);
+            }
+        },
         getSpriteById: function(id) {
     
             for (var i in this.Sprites) {
@@ -353,6 +365,9 @@ var Quercia = (function(canvasId) {
                         
                     var x = this.Sprites[i].order;
                     var a1 = this.Sprites[x];
+                        
+                    var cx = a1.x + 0.5 * a1.w,
+                        cy = a1.y + 0.5 * a1.h;    
         
                     //context.save();
                     context.fillStyle = a1.color;
@@ -402,13 +417,21 @@ var Quercia = (function(canvasId) {
        
                     var x = this.Sprites[i].order;
                     var a4 = this.Sprites[x];
+                        
+                    var cx = a4.x + 0.5 * a4.length,
+                        cy = a4.y + 0.5 * a4.length;     
             
                     context.fillStyle = a4.color;
                     context.save();
                     
-                    context.rotate(0,degrees);       
-                    context.translate(a4.x, a4.y);
-                    context.rotate((Math.PI * 1 / 10));
+                        
+                    context.translate(cx, cy);       
+                    context.rotate((Math.PI / 180) * degrees);
+                    context.translate(-cx, -cy);        
+                        
+                    //context.rotate(degrees);       
+                    //context.translate(a4.x, a4.y);
+                    //context.rotate((Math.PI * 1 / 10));
 
                     for (var j = 5; j--;) {
                         context.lineTo(0, a4.length);
@@ -514,10 +537,14 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Quercia.init(760,300,"#ff69b4",true);
-Quercia.drawRect(100,100,60,60,"#f00","myRect");
-Quercia.scale(1.4,1.4);
-Quercia.rotate(-30);
+Quercia.drawRect(100,100,40,40,"#0f0","myRect1");
+Quercia.drawRect(300,200,40,40,"#f00","myRect2");
+Quercia.drawStar(500,100,20,"#faa","myStar1");
 
+Quercia.rotate(30);
+Quercia.scale(1.5,1.5);
+
+Quercia.drawAnimation("anim1","boycolors.png",4,0,0,120,160,30,40,120,160);
 
 
 
