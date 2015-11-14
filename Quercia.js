@@ -143,7 +143,7 @@ var Quercia = (function(canvasId) {
                 context.drawImage(name,x,y,w,h);
             }
         },
-        drawAnimation: function(name,src,numFrames,sX,sY,sW,sH,x,y,w,h) {
+        drawAnimation: function(name,src,numFrames,sX,sY,sW,sH,x,y,w,h,id) {
             
             var name = name || "name";
             name = new Image();
@@ -154,6 +154,28 @@ var Quercia = (function(canvasId) {
             window.onload = function() {
                 context.drawImage(name,sX,sY,sW,sH,x,y,w,h);
             }
+            
+            var animation = {name: name, sX: sX, sY: sY,sW: sW, sH: sH,
+                             x: x, x: y, w: w, h: h, numFrames: numFrames,
+                            order: this.Sprites.length, id: id};
+            
+            this.Images.push(animation); 
+        },
+        animateAnimation: function(id) {
+            
+            for (var i in this.Images) {
+            
+                if (this.Images[i].id === id) {
+                    
+                    if (this.Images[i].sX < 360) {
+                        
+                       this.Images[i].sX += 120;
+                    } else {
+                        
+                        this.Images[i].sX = 0;
+                    }
+                }
+            }    
         },
         getSpriteById: function(id) {
     
@@ -198,9 +220,9 @@ var Quercia = (function(canvasId) {
                     var value = this.Sprites[i];
                     
                     for (var j in value) {
-                         if (j === attr) {
+                        if (j === attr) {
                             this.Sprites[i][j] = val;
-                         }
+                        }
                     }
                 }
             }
@@ -536,16 +558,23 @@ window.onresize=function(){Quercia.init()};
     
 // EXAMPLES....
 
-Quercia.init(760,300,"#ff69b4",true);
+Quercia.init(760,300,"#000",true);
 Quercia.drawRect(100,100,40,40,"#0f0","myRect1");
 Quercia.drawRect(300,200,40,40,"#f00","myRect2");
-Quercia.drawStar(500,100,20,"#faa","myStar1");
+//Quercia.drawStar(500,100,20,"#faa","myStar1");
 
 Quercia.rotate(30);
 Quercia.scale(1.5,1.5);
 
-Quercia.drawAnimation("anim1","boycolors.png",4,0,0,120,160,30,40,120,160);
+Quercia.drawAnimation("anim1","boycolors.png",4,0,0,120,160,30,40,120,160,"anim1");
+console.log(Quercia.Images);
 
+update();
 
+function update() {
+    window.setTimeout(update,33);
+    //Quercia.clearCanvas();
+    Quercia.animateAnimation("anim1");
+}
 
 
