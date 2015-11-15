@@ -288,6 +288,27 @@ var Quercia = (function(canvasId) {
             } 
             this.render();
         },
+        move: function(id,vx,vy) {
+            
+             for (var i in this.Sprites) {
+                
+                if (this.Sprites[i].id === id) {
+                    var value = this.Sprites[i];
+                    
+                    for (var j in value) {
+                            if (j === "x") {
+                                
+                                console.log(this.Sprites[i][j]);
+                                this.Sprites[i][j] += vx;
+                                this.render();
+                            }
+                            if (j === "y") {
+                                this.Sprites[i][j] += vy;
+                            }
+                    }
+                }
+            }  
+        },
         scale: function(scaleX,scaleY) {
             
             this.clearCanvas();
@@ -566,15 +587,16 @@ Quercia.drawRect(300,200,40,40,"#f00","myRect2");
 Quercia.rotate(30);
 Quercia.scale(1.5,1.5);
 
-Quercia.drawAnimation("anim1","boycolors.png",4,0,0,120,160,30,40,120,160,"anim1");
-console.log(Quercia.Images);
+//Quercia.drawAnimation("anim1","boycolors.png",4,0,0,120,160,30,40,120,160,"anim1");
+
 
 update();
 
 function update() {
     window.setTimeout(update,33);
-    //Quercia.clearCanvas();
-    Quercia.animateAnimation("anim1");
+    Quercia.clearCanvas();
+    Quercia.move("myRect1",3,3);
+    
 }
 
 
