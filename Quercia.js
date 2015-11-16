@@ -10,14 +10,22 @@ var Quercia = (function(canvasId) {
         Images: [],
         
         
-        init: function(w,h,color,centered) {
-            
+        init: function(w,h,color,centered,border,borderWidth,borderColor) {
+            console.log(borderColor);
+			var borderWidth = borderWidth || 5;
+			var borderColor = borderColor || "#fff";
+			
             this.setCanvasDimensions(w,h);
             this.setCanvasColor(color);
             
             if (centered) {
                 this.centerCanvas();
             }
+			if (border) {
+				
+				this.addCanvasBorder(borderWidth,borderColor);
+				console.log(borderColor);
+			}
         },
         setCanvasDimensions: function(w,h) {
             canvas.width = w || 0;
@@ -51,6 +59,9 @@ var Quercia = (function(canvasId) {
         setCanvasColor: function(val) {
             canvas.style.backgroundColor = val;
         },
+		addCanvasBorder: function(borderWidth,borderColor) {
+			canvas.style.border = borderWidth + "px" + " solid " + borderColor;	
+		},
         resetFillColor: function() {
             context.fillStyle = "";
         },
@@ -148,9 +159,7 @@ var Quercia = (function(canvasId) {
             var name = name || "name";
             name = new Image();
             name.src = src;
-            
-            console.log(name.naturalWidth);
-            
+                        
             window.onload = function() {
                 context.drawImage(name,sX,sY,sW,sH,x,y,w,h);
             }
@@ -288,25 +297,50 @@ var Quercia = (function(canvasId) {
             } 
             this.render();
         },
-        move: function(id,vx,vy) {
+        move: function(id,vx,vy,canRun) {
+            
+			 if (canRun) {
+             for (var i in this.Sprites) {
+                    if (this.Sprites[i].id === id) {
+                        var value = this.Sprites[i];
+
+							for (var j in value) {
+									if (j === "x") {
+										this.Sprites[i].vx = vx;
+
+										this.Sprites[i][j] += this.Sprites[i].vx;
+										this.render();
+									}
+									if (j === "y" && this.Sprites[i][j] !== 0) {
+										this.Sprites[i][j] += vy;
+										this.render();
+									}
+							}
+						} else {
+							
+							this.Sprites[i].vx = 0;
+						}
+					}
+            }  
+        },
+		stop: function(id) {
             
              for (var i in this.Sprites) {
-                
-                if (this.Sprites[i].id === id) {
-                    var value = this.Sprites[i];
-                    
-                    for (var j in value) {
-                            if (j === "x") {
-                                
-                                console.log(this.Sprites[i][j]);
-                                this.Sprites[i][j] += vx;
-                                this.render();
-                            }
-                            if (j === "y") {
-                                this.Sprites[i][j] += vy;
-                            }
+                    if (this.Sprites[i].id === id) {
+                        var value = this.Sprites[i];
+						
+                        for (var j in value) {
+                                if (j === "x") {
+									console.log(this.Sprites[i].vx);
+                                    this.Sprites[i].vx = 0;
+                                    this.render();
+                                }
+                                if (j === "y") {
+                                    this.Sprites[i].vy = 0;
+									this.render();
+                                }
+                        }
                     }
-                }
             }  
         },
         scale: function(scaleX,scaleY) {
@@ -448,12 +482,12 @@ var Quercia = (function(canvasId) {
                     var cx = a3.x + 0.5 * a3.w,
                         cy = a3.y + 0.5 * a3.h;    
         
-                    //context.save();
+                    context.save();
                     context.rotate(0,degrees);       
                     context.fillStyle = a3.color;
                     context.arc(a3.x,a3.y,a3.diameter / 2,0,2 * Math.PI);
                     context.fill();
-                    //context.restore();
+                    context.restore();
                     break;
            
                     case "star":
@@ -466,7 +500,7 @@ var Quercia = (function(canvasId) {
             
                     context.fillStyle = a4.color;
                     context.save();
-                    
+                    this.clearCanvas();
                         
                     context.translate(cx, cy);       
                     context.rotate((Math.PI / 180) * degrees);
@@ -532,21 +566,24 @@ var Quercia = (function(canvasId) {
                       
                     var x = this.Sprites[i].order;
                     var a3 = this.Sprites[x];
-        
-                    //context.save();
+        			
+					
+                   	context.save();	
                     context.fillStyle = a3.color;
                     context.arc(a3.x,a3.y,a3.diameter / 2,0,2 * Math.PI);
                     context.fill();
-                    //context.restore();
+                   	context.restore();
+					
                     break;
            
                     case "star":
        
+					context.save();		
                     var x = this.Sprites[i].order;
                     var a4 = this.Sprites[x];
             
                     context.fillStyle = a4.color;
-                    context.save();
+                   
                     
                     context.translate(a4.x, a4.y);
                     context.rotate((Math.PI * 1 / 10));
@@ -562,8 +599,9 @@ var Quercia = (function(canvasId) {
             
                     context.lineTo(0, a4.length);
                     context.closePath();
-                    context.restore();
+                    
                     context.fill();
+					context.restore();	
                     break;
                 }
             }
@@ -579,24 +617,26 @@ window.onresize=function(){Quercia.init()};
     
 // EXAMPLES....
 
-Quercia.init(760,300,"#000",true);
+Quercia.init(760,300,"rgb(33,00,330)",true,true,10,"#0f0");
 Quercia.drawRect(100,100,40,40,"#0f0","myRect1");
-Quercia.drawRect(300,200,40,40,"#f00","myRect2");
-//Quercia.drawStar(500,100,20,"#faa","myStar1");
+Quercia.drawCircle(100,100,30,"#f00","myCircle1");
 
-Quercia.rotate(30);
-Quercia.scale(1.5,1.5);
-
-//Quercia.drawAnimation("anim1","boycolors.png",4,0,0,120,160,30,40,120,160,"anim1");
 
 
 update();
 
 function update() {
     window.setTimeout(update,33);
-    Quercia.clearCanvas();
-    Quercia.move("myRect1",3,3);
-    
+    //Quercia.clearCanvas();
+    //Quercia.move("myRect1",3,3);
+	Quercia.move("myCircle1",4,0,true);
+	window.setTimeout(stopStuff,3000);
+	
+}
+function stopStuff() {
+	
+	
+	Quercia.move("myCircle1",0,0,false);
 }
 
 
