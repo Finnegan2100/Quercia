@@ -300,6 +300,7 @@ var Quercia = (function(canvasId) {
         removeAllSprites: function() {
             
             this.Sprites = [];
+			this.render();
             
         },
         clearCanvas: function() {
@@ -651,9 +652,7 @@ window.onresize=function(){Quercia.init()};
 Quercia.init(760,300,"rgb(33,00,330)",true,true,10,"#0f0");
 //Quercia.drawRect(200,200,40,70,"#f00","myRect1");
 Quercia.drawCircle(100,105,40,"#0f0","myCircle1");
-console.log(Quercia.getAllSpriteAttributes("myCircle1"));
-
-console.log(Quercia.getSpriteAttribute("myCircle1","x"));
+Quercia.removeAllSprites();
 
 
 
