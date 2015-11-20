@@ -9,7 +9,6 @@ var Quercia = (function(canvasId) {
         Sprites: [],
         Images: [],
         
-        
         init: function(w,h,color,centered,border,borderWidth,borderColor) {
             console.log(borderColor);
 			var borderWidth = borderWidth || 5;
@@ -307,6 +306,12 @@ var Quercia = (function(canvasId) {
             
             context.clearRect(0,0,canvas.width,canvas.height);
         },
+		setGlobalOpacity: function(ga) {
+			context.globalAlpha = ga;	
+		},
+		getGlobalOpacity: function() {
+			return context.globalAlpha;
+		},
         createSprite: function(type,id) {
                         
             switch (type) {
@@ -348,7 +353,7 @@ var Quercia = (function(canvasId) {
 							
 							this.Sprites[i].vx = 0;
 						}
-					}
+			 		}
             }  
         },
 		stop: function(id) {
@@ -423,14 +428,14 @@ var Quercia = (function(canvasId) {
         			
 					//this.clearCanvas();
 					//this.render();
-                    context.save();
+                    //context.save();
 					context.translate(cx2, cy2); 	
                     context.scale(scaleX,scaleY);
 					context.translate(-cx2, -cy2); 	
                     context.fillStyle = a3.color;
                     context.arc(a3.x,a3.y,a3.diameter / 2,0,2 * Math.PI);
                     context.fill();
-                    context.restore();
+                    //context.restore();
                     break;
            
                     case "star":
@@ -562,6 +567,7 @@ var Quercia = (function(canvasId) {
         render: function() {
             
             this.clearCanvas();
+			
             
             for (var i in this.Sprites) { 
                 
@@ -651,8 +657,11 @@ window.onresize=function(){Quercia.init()};
 
 Quercia.init(760,300,"rgb(33,00,330)",true,true,10,"#0f0");
 //Quercia.drawRect(200,200,40,70,"#f00","myRect1");
+//Quercia.setGlobalOpacity(1);
 Quercia.drawCircle(100,105,40,"#0f0","myCircle1");
-Quercia.removeAllSprites();
+//Quercia.setGlobalOpacity(0.2);
+Quercia.drawRect(100,100,100,100,"#f00","myRect1");
+//Quercia.removeAllSprites();
 
 
 
