@@ -142,15 +142,22 @@ var Quercia = (function(canvasId) {
             this.Sprites.push(star);
             this.render();
         },
-        drawImage: function(name,src,x,y,w,h) {
+        drawImage: function(src,x,y,w,h,id) {
             
-            var name = name || "name";
+            var name = id || "name";
             name = new Image();
             name.src = src;
             
-            window.onload = function() {
-                context.drawImage(name,x,y,w,h);
-            }
+            var image = {x: x, y: y, w: w, h: h, src: src, id: id, type: "image",
+                         order: this.Sprites.length};
+            
+            this.Sprites.push(image);
+            this.render();
+            
+            ///window.onload = function() {
+               // context.drawImage(name,x,y,w,h);
+            //}
+            
         },
         drawAnimation: function(name,src,numFrames,sX,sY,sW,sH,x,y,w,h,id) {
             
@@ -330,6 +337,19 @@ var Quercia = (function(canvasId) {
             } 
             this.render();
         },
+        createUpdateLoop: function(ms) {
+        
+            loop();
+            
+            function loop() {
+                
+                context.clearRect(0,0,canvas.width,canvas.height);
+                window.setTimeout(loop,ms);
+                Quercia.render();
+                console.log("here");
+            }
+        },
+        
         move: function(id,vx,vy,canRun) {
             
 			 if (canRun) {
@@ -567,11 +587,23 @@ var Quercia = (function(canvasId) {
         render: function() {
             
             this.clearCanvas();
-			
+
             
             for (var i in this.Sprites) { 
-                
+        
                 switch (this.Sprites[i].type) {
+                       
+                    case "image":
+                    var x = this.Sprites[i].order;
+                    var a0 = this.Sprites[x];
+                    
+                   
+                    var name = a0.id;
+                    name = new Image();
+                    name.src = a0.src;  
+                        
+                    context.drawImage(name,a0.x,a0.y,a0.w,a0.h);
+                    break;    
                         
                     case "tri":
                         
@@ -656,12 +688,12 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Quercia.init(760,300,"rgb(33,00,330)",true,true,10,"#0f0");
-//Quercia.drawRect(200,200,40,70,"#f00","myRect1");
-//Quercia.setGlobalOpacity(1);
 Quercia.drawCircle(100,105,40,"#0f0","myCircle1");
-//Quercia.setGlobalOpacity(0.2);
 Quercia.drawRect(100,100,100,100,"#f00","myRect1");
-//Quercia.removeAllSprites();
+//Quercia.drawImage("BenGreen.jpg",100,100,100,100,"ben");
+
+Quercia.createUpdateLoop(30);
+Quercia.move("myRect1",3,3,true);
 
 
 
