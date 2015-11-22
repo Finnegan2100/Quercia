@@ -337,16 +337,65 @@ var Quercia = (function(canvasId) {
             } 
             this.render();
         },
+        getHalfWidth: function(id) {
+            
+             for (var i in this.Sprites) {
+                if (this.Sprites[i].id === id) {
+                    
+                    switch (this.Sprites[i].type) {
+                            
+                        case "rect":
+                        return this.Sprites[i].width / 2;
+                        break;
+                            
+                        case "circle":
+                        return this.Sprites[i].diameter / 2;
+                        break;
+                    }
+                }
+            }
+        },
+        getHalfHeight: function(id) {
+            
+             for (var i in this.Sprites) {
+                if (this.Sprites[i].id === id) {
+                    
+                    switch (this.Sprites[i].type) {
+                            
+                        case "rect":
+                        return this.Sprites[i].height / 2;
+                        break;
+                            
+                        case "circle":
+                        return this.Sprites[i].diameter / 2;
+                        break;
+                    }
+                }
+            }
+        },
+        checkCollision: function(s1,s2) {
+            
+            var vx = obj1.centerX() - obj2.centerX(),
+            vy = obj1.centerY() - obj2.centerY(),
+            combinedHalfWidths = obj1.halfWidth() + obj2.halfWidth(),
+            combinedHalfHeights = obj1.halfHeight() + obj2.halfHeight();
+
+             if (Math.abs(vx) < combinedHalfWidths) {
+                if (Math.abs(vy) < combinedHalfHeights) {
+                    return true;
+                }
+            }    
+        },
         createUpdateLoop: function(ms) {
         
             loop();
             
             function loop() {
                 
-                context.clearRect(0,0,canvas.width,canvas.height);
+                
                 window.setTimeout(loop,ms);
+                context.clearRect(0,0,canvas.width,canvas.height);
                 Quercia.render();
-                console.log("here");
             }
         },
         
@@ -359,9 +408,9 @@ var Quercia = (function(canvasId) {
 
 							for (var j in value) {
 									if (j === "x") {
-										this.Sprites[i].vx = vx;
+										//this.Sprites[i].vx = vx;
 
-										this.Sprites[i][j] += this.Sprites[i].vx;
+										this.Sprites[i][j] += vx
 										this.render();
 									}
 									if (j === "y" && this.Sprites[i][j] !== 0) {
@@ -369,10 +418,10 @@ var Quercia = (function(canvasId) {
 										this.render();
 									}
 							}
-						} else {
+						} //else {
 							
-							this.Sprites[i].vx = 0;
-						}
+							//this.Sprites[i].vx = 0;
+						//}
 			 		}
             }  
         },
@@ -690,10 +739,15 @@ window.onresize=function(){Quercia.init()};
 Quercia.init(760,300,"rgb(33,00,330)",true,true,10,"#0f0");
 Quercia.drawCircle(100,105,40,"#0f0","myCircle1");
 Quercia.drawRect(100,100,100,100,"#f00","myRect1");
+
+Quercia.drawRect(300,130,100,100,"#f00","myRect2");
+Quercia.drawRect(200,230,100,100,"#f00","myRect3");
+
+Quercia.drawRect(400,30,100,100,"#f00","myRect4");
 //Quercia.drawImage("BenGreen.jpg",100,100,100,100,"ben");
 
-Quercia.createUpdateLoop(30);
-Quercia.move("myRect1",3,3,true);
+//Quercia.createUpdateLoop(30);
+
 
 
 
