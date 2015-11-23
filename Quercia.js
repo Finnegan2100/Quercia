@@ -780,9 +780,13 @@ var Quercia = (function(canvasId) {
         
         if (evt.keyCode === 82) {
             console.log("BEGIN ADDING RECTANGLE COORDINATES");
-        } else {
-            Clicks = [];       
-        }
+        } 
+        if (evt.keyCode === 85) {
+            console.log("q!");
+            Q.Sprites.pop();
+            Clicks.pop();
+            Q.render();
+        }   
     });
     addEventListener("click",function onClick(evt) {
         
@@ -821,6 +825,7 @@ var Quercia = (function(canvasId) {
             }
             
             Clicks = [];
+            console.log(Q.Sprites);
         }   
     });
     
