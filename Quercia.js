@@ -1,3 +1,4 @@
+
 var Quercia = (function(canvasId) {
 	
     var canvas = document.getElementById(canvasId),
@@ -772,23 +773,17 @@ var Quercia = (function(canvasId) {
     
 })("myCanvas");
 
+window.Quercia = window.Q = Quercia;
+
 window.onresize=function(){Quercia.init()};
 
     
 // EXAMPLES....
 
-Quercia.init(760,300,"rgb(33,00,330)",true,true,10,"#0f0");
-Quercia.drawCircle(100,105,40,"#0f0","myCircle1");
-Quercia.drawRect(100,100,100,100,"#f00","myRect1");
+Q.init(760,300,"rgb(33,00,330)",true,true,10,"#3bf");
+Q.drawRect(200,100,40,70,"#dd1","myRect1");
 
-Quercia.drawRect(100,130,100,100,"#f00","myRect2");
-Quercia.drawRect(200,230,100,100,"#f00","myRect3");
-
-Quercia.drawRect(400,30,100,100,"#f00","myRect4");
-//Quercia.drawImage("BenGreen.jpg",100,100,100,100,"ben");
-
-//Quercia.createUpdateLoop(30);
-console.log(Quercia.checkCollision("myRect1","myRect2"));
+console.log(Q.checkCollision("myRect1","myRect2"));
 
 
 
