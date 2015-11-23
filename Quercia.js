@@ -2,13 +2,14 @@
 var Quercia = (function(canvasId) {
 	
     var canvas = document.getElementById(canvasId),
-        context = canvas.getContext("2d");
-    
+        context = canvas.getContext("2d"),
+        Clicks = [];
     
     var Ben = {
         
         Sprites: [],
         Images: [],
+        
         
         init: function(w,h,color,centered,border,borderWidth,borderColor) {
             
@@ -62,7 +63,7 @@ var Quercia = (function(canvasId) {
 		},
         resetFillColor: function() {
             context.fillStyle = "";
-        },
+        },    
         createInitialHelloText: function(message,color) {
     
             var w = message.length; 
@@ -72,6 +73,9 @@ var Quercia = (function(canvasId) {
             context.fillStyle = color || "#000";
             context.font = message.length + "px";
             context.fillText(message,100,75);
+        },
+        keyDown: function() {
+            console.log("key pressed!");  
         },
         drawLine: function (x1,y1,x2,y2,width, color) {
             
@@ -419,7 +423,6 @@ var Quercia = (function(canvasId) {
             combinedHalfWidths = Quercia.getHalfWidth(s1) + Quercia.getHalfWidth(s2),
             combinedHalfHeights = Quercia.getHalfHeight(s1) + Quercia.getHalfHeight(s2);
 
-            console.log(vx,vy,combinedHalfWidths,combinedHalfHeights);
              if (Math.abs(vx) < combinedHalfWidths) {
                 if (Math.abs(vy) < combinedHalfHeights) {
                     return true;
@@ -527,6 +530,8 @@ var Quercia = (function(canvasId) {
                     context.fillRect(a2.x,a2.y,a2.w,a2.h);
                     context.restore();
                     context.fill();
+                    this.Sprites[i].scaleX = scaleX;
+                    this.Sprites[i].scaleY = scaleY;
                     break;
                         
                     case "circle":
@@ -620,6 +625,7 @@ var Quercia = (function(canvasId) {
                     context.fillRect(a2.x,a2.y,a2.w,a2.h);
                     context.restore();
                     context.fill();
+                    this.Sprites[i].rotation = degrees;
                     break;
                         
                     case "circle":
@@ -678,7 +684,6 @@ var Quercia = (function(canvasId) {
         render: function() {
             
             this.clearCanvas();
-
             
             for (var i in this.Sprites) { 
         
@@ -719,6 +724,8 @@ var Quercia = (function(canvasId) {
                     context.save();
                     context.fillStyle = a2.color;
                     context.fillRect(a2.x,a2.y,a2.w,a2.h);
+                    this.scale(this.Sprites[i].scaleX,this.Sprites[i].scaleY);
+                    this.rotate(this.Sprites[i].rotation);
                     context.restore();
                     context.fill();
                     break;
@@ -769,11 +776,33 @@ var Quercia = (function(canvasId) {
         }
     }
     
+    addEventListener("keydown",function keyDown(evt) {
+        
+        if (evt.keyCode === 82) {
+            console.log("BEGIN ADDING RECTANGLE COORDINATES");
+        }
+    });
+    addEventListener("click",function onClick(evt) {
+        
+        var x = evt.x;
+        var y = evt.y;
+
+        var canvas = document.getElementById("myCanvas");
+
+        x -= canvas.offsetLeft;
+        y -= canvas.offsetTop;
+        
+        var coords = {"x": x,"y": y};
+        Clicks.push(coords);
+        console.log(Clicks);
+    });
+    
     return Ben;
     
 })("myCanvas");
 
 window.Quercia = window.Q = Quercia;
+     
 
 window.onresize=function(){Quercia.init()};
 
@@ -783,7 +812,12 @@ window.onresize=function(){Quercia.init()};
 Q.init(760,300,"rgb(33,00,330)",true,true,10,"#3bf");
 Q.drawRect(200,100,40,70,"#dd1","myRect1");
 
+
+Q.scale(1.7,1.7);
+Q.rotate(30);
+
 console.log(Q.checkCollision("myRect1","myRect2"));
+console.log(Q.Sprites);
 
 
 
