@@ -10,7 +10,7 @@ var Quercia = (function(canvasId) {
         Images: [],
         
         init: function(w,h,color,centered,border,borderWidth,borderColor) {
-            console.log(borderColor);
+            
 			var borderWidth = borderWidth || 5;
 			var borderColor = borderColor || "#fff";
 			
@@ -22,7 +22,6 @@ var Quercia = (function(canvasId) {
             }
 			if (border) {
 				this.addCanvasBorder(borderWidth,borderColor);
-				console.log(borderColor);
 			}
         },
         setCanvasDimensions: function(w,h) {
@@ -414,16 +413,20 @@ var Quercia = (function(canvasId) {
         },
         checkCollision: function(s1,s2) {
             
-            var vx = obj1.centerX() - obj2.centerX(),
-            vy = obj1.centerY() - obj2.centerY(),
-            combinedHalfWidths = obj1.halfWidth() + obj2.halfWidth(),
-            combinedHalfHeights = obj1.halfHeight() + obj2.halfHeight();
+            var vx = Quercia.getCenterX(s1) - Quercia.getCenterX(s2),
+                vy = Quercia.getCenterY(s1) - Quercia.getCenterY(s2),
+            combinedHalfWidths = Quercia.getHalfWidth(s1) + Quercia.getHalfWidth(s2),
+            combinedHalfHeights = Quercia.getHalfHeight(s1) + Quercia.getHalfHeight(s2);
 
+            console.log(vx,vy,combinedHalfWidths,combinedHalfHeights);
              if (Math.abs(vx) < combinedHalfWidths) {
                 if (Math.abs(vy) < combinedHalfHeights) {
                     return true;
+                } 
+            }   
+            else {
+                    return false;
                 }
-            }    
         },
         createUpdateLoop: function(ms) {
         
@@ -472,7 +475,6 @@ var Quercia = (function(canvasId) {
 						
                         for (var j in value) {
                                 if (j === "x") {
-									console.log(this.Sprites[i].vx);
                                     this.Sprites[i].vx = 0;
                                     this.render();
                                 }
@@ -779,14 +781,14 @@ Quercia.init(760,300,"rgb(33,00,330)",true,true,10,"#0f0");
 Quercia.drawCircle(100,105,40,"#0f0","myCircle1");
 Quercia.drawRect(100,100,100,100,"#f00","myRect1");
 
-Quercia.drawRect(300,130,100,100,"#f00","myRect2");
+Quercia.drawRect(100,130,100,100,"#f00","myRect2");
 Quercia.drawRect(200,230,100,100,"#f00","myRect3");
 
 Quercia.drawRect(400,30,100,100,"#f00","myRect4");
-console.log(Quercia.getHalfHeight("myRect4"));
 //Quercia.drawImage("BenGreen.jpg",100,100,100,100,"ben");
 
 //Quercia.createUpdateLoop(30);
+console.log(Quercia.checkCollision("myRect1","myRect2"));
 
 
 
