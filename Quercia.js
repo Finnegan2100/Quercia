@@ -337,6 +337,45 @@ var Quercia = (function(canvasId) {
             } 
             this.render();
         },
+        getCenterX: function(id) {
+            
+            for (var i in this.Sprites) {
+                if (this.Sprites[i].id === id) {
+                    
+                    switch (this.Sprites[i].type) {
+                            
+                        case "rect":
+                        var cent = this.Sprites[i].x + this.Sprites[i].w / 2;  
+                        return cent; 
+                        break;
+                            
+                        case "circle":
+                        return this.Sprites[i].x;
+                        break;
+                    }
+                }
+            }  
+        },
+        getCenterY: function(id) {
+            
+                for (var i in this.Sprites) {
+                if (this.Sprites[i].id === id) {
+                    
+                    switch (this.Sprites[i].type) {
+                            
+                        case "rect":
+                        var cent = this.Sprites[i].y + this.Sprites[i].h / 2;     
+                        return cent; 
+                        break;
+                            
+                        case "circle":
+                        return this.Sprites[i].y;
+                        break;
+                    }
+                }
+            }  
+            
+        },
         getHalfWidth: function(id) {
             
              for (var i in this.Sprites) {
@@ -345,7 +384,7 @@ var Quercia = (function(canvasId) {
                     switch (this.Sprites[i].type) {
                             
                         case "rect":
-                        return this.Sprites[i].width / 2;
+                        return this.Sprites[i].w / 2;
                         break;
                             
                         case "circle":
@@ -363,7 +402,7 @@ var Quercia = (function(canvasId) {
                     switch (this.Sprites[i].type) {
                             
                         case "rect":
-                        return this.Sprites[i].height / 2;
+                        return this.Sprites[i].h / 2;
                         break;
                             
                         case "circle":
@@ -744,6 +783,7 @@ Quercia.drawRect(300,130,100,100,"#f00","myRect2");
 Quercia.drawRect(200,230,100,100,"#f00","myRect3");
 
 Quercia.drawRect(400,30,100,100,"#f00","myRect4");
+console.log(Quercia.getHalfHeight("myRect4"));
 //Quercia.drawImage("BenGreen.jpg",100,100,100,100,"ben");
 
 //Quercia.createUpdateLoop(30);
