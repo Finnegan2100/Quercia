@@ -798,7 +798,28 @@ var Quercia = (function(canvasId) {
         Clicks.push(coords);
        
         if (Clicks.length === 2) {
-            Q.drawRect(Clicks[0].x,Clicks[0].y,Clicks[1].x - Clicks[0].x,Clicks[1].y - Clicks[0].y);
+            
+            if (Clicks[0].x < Clicks[1].x && Clicks[0].y < Clicks[1].y) {
+                
+                Q.drawRect(Clicks[0].x,Clicks[0].y,Clicks[1].x - Clicks[0].x,Clicks[1].y -
+                    Clicks[0].y);
+            } 
+            if (Clicks[0].x > Clicks[1].x && Clicks[0].y < Clicks[1].y) {
+             
+                Q.drawRect(Clicks[1].x,Clicks[0].y,Clicks[0].x - Clicks[1].x,Clicks[1].y -
+                    Clicks[0].y);
+            }
+            if (Clicks[0].x > Clicks[1].x && Clicks[0].y > Clicks[1].y) {
+             
+                Q.drawRect(Clicks[1].x,Clicks[1].y,Clicks[0].x - Clicks[1].x,Clicks[0].y -
+                    Clicks[1].y);
+            }
+            if (Clicks[0].x < Clicks[1].x && Clicks[0].y > Clicks[1].y) {
+             
+                Q.drawRect(Clicks[0].x,Clicks[1].y,Clicks[1].x - Clicks[0].x,Clicks[0].y -
+                    Clicks[1].y);
+            }
+            
             Clicks = [];
         }   
     });
@@ -819,8 +840,8 @@ Q.init(760,300,"rgb(33,00,330)",true,true,10,"#3bf");
 Q.drawRect(200,100,40,70,"#dd1","myRect1");
 
 
-Q.scale(1.7,1.7);
-Q.rotate(30);
+//Q.scale(1.7,1.7);
+//Q.rotate(30);
 
 console.log(Q.checkCollision("myRect1","myRect2"));
 console.log(Q.Sprites);
