@@ -780,6 +780,8 @@ var Quercia = (function(canvasId) {
         
         if (evt.keyCode === 82) {
             console.log("BEGIN ADDING RECTANGLE COORDINATES");
+        } else {
+            Clicks = [];       
         }
     });
     addEventListener("click",function onClick(evt) {
@@ -794,7 +796,11 @@ var Quercia = (function(canvasId) {
         
         var coords = {"x": x,"y": y};
         Clicks.push(coords);
-        console.log(Clicks);
+       
+        if (Clicks.length === 2) {
+            Q.drawRect(Clicks[0].x,Clicks[0].y,Clicks[1].x - Clicks[0].x,Clicks[1].y - Clicks[0].y);
+            Clicks = [];
+        }   
     });
     
     return Ben;
