@@ -795,6 +795,11 @@ var Quercia = (function(canvasId) {
             DYNAMIC_MODE = "CIRCLE";
             Clicks = [];
         } 
+        if (evt.keyCode === 76) {
+            console.log("BEGIN ADDING LINE COORDINATES");
+            DYNAMIC_MODE = "LINE";
+            Clicks = [];
+        } 
         if (evt.keyCode === 85) {
             console.log("q!");
             Q.Sprites.pop();
@@ -857,11 +862,20 @@ var Quercia = (function(canvasId) {
                 console.log(Q.Sprites); 
             }  
         }
-          if (DYNAMIC_MODE === "CIRCLE") {
+        if (DYNAMIC_MODE === "CIRCLE") {
        
             if (Clicks.length === 2) {
                 
                 Q.drawCircle(Clicks[0].x,Clicks[0].y,Math.abs(Clicks[0].x - Clicks[1].x));
+                Clicks = [];
+                console.log(Q.Sprites); 
+            }  
+        }
+         if (DYNAMIC_MODE === "LINE") {
+       
+            if (Clicks.length === 2) {
+                
+                Q.drawLine(Clicks[0].x,Clicks[0].y,Clicks[1].x,Clicks[1].y);
                 Clicks = [];
                 console.log(Q.Sprites); 
             }  
