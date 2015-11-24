@@ -3,6 +3,7 @@ var Quercia = (function(canvasId) {
 	
     var canvas = document.getElementById(canvasId),
         context = canvas.getContext("2d"),
+        DYNAMIC_MODE = "";
         Clicks = [];
     
     var Ben = {
@@ -722,6 +723,7 @@ var Quercia = (function(canvasId) {
                     var a2 = this.Sprites[x];
                     
                     context.save();
+                    context.beginPath();
                     context.fillStyle = a2.color;
                     context.fillRect(a2.x,a2.y,a2.w,a2.h);
                     this.scale(this.Sprites[i].scaleX,this.Sprites[i].scaleY);
@@ -780,6 +782,13 @@ var Quercia = (function(canvasId) {
         
         if (evt.keyCode === 82) {
             console.log("BEGIN ADDING RECTANGLE COORDINATES");
+            DYNAMIC_MODE = "RECT";
+            Clicks = [];
+        } 
+        if (evt.keyCode === 83) {
+            console.log("BEGIN ADDING STAR COORDINATES");
+            DYNAMIC_MODE = "STAR";
+            Clicks = [];
         } 
         if (evt.keyCode === 85) {
             console.log("q!");
@@ -800,33 +809,49 @@ var Quercia = (function(canvasId) {
         
         var coords = {"x": x,"y": y};
         Clicks.push(coords);
+        
+        if (DYNAMIC_MODE === "RECT") {
        
-        if (Clicks.length === 2) {
-            
-            if (Clicks[0].x < Clicks[1].x && Clicks[0].y < Clicks[1].y) {
+            if (Clicks.length === 2) {
+
+                if (Clicks[0].x < Clicks[1].x && Clicks[0].y < Clicks[1].y) {
+
+                    Q.drawRect(Clicks[0].x,Clicks[0].y,Clicks[1].x - Clicks[0].x,Clicks[1].y -
+                        Clicks[0].y);
+                } 
+                if (Clicks[0].x > Clicks[1].x && Clicks[0].y < Clicks[1].y) {
+
+                    Q.drawRect(Clicks[1].x,Clicks[0].y,Clicks[0].x - Clicks[1].x,Clicks[1].y -
+                        Clicks[0].y);
+                }
+                if (Clicks[0].x > Clicks[1].x && Clicks[0].y > Clicks[1].y) {
+
+                    Q.drawRect(Clicks[1].x,Clicks[1].y,Clicks[0].x - Clicks[1].x,Clicks[0].y -
+                        Clicks[1].y);
+                }
+                if (Clicks[0].x < Clicks[1].x && Clicks[0].y > Clicks[1].y) {
+
+                    Q.drawRect(Clicks[0].x,Clicks[1].y,Clicks[1].x - Clicks[0].x,Clicks[0].y -
+                        Clicks[1].y);
+                }
+
+                Clicks = [];
+                console.log(Q.Sprites);
+            }  
+        }
+        if (DYNAMIC_MODE === "STAR") {
+       
+            if (Clicks.length === 2) {
                 
-                Q.drawRect(Clicks[0].x,Clicks[0].y,Clicks[1].x - Clicks[0].x,Clicks[1].y -
-                    Clicks[0].y);
-            } 
-            if (Clicks[0].x > Clicks[1].x && Clicks[0].y < Clicks[1].y) {
-             
-                Q.drawRect(Clicks[1].x,Clicks[0].y,Clicks[0].x - Clicks[1].x,Clicks[1].y -
-                    Clicks[0].y);
-            }
-            if (Clicks[0].x > Clicks[1].x && Clicks[0].y > Clicks[1].y) {
-             
-                Q.drawRect(Clicks[1].x,Clicks[1].y,Clicks[0].x - Clicks[1].x,Clicks[0].y -
-                    Clicks[1].y);
-            }
-            if (Clicks[0].x < Clicks[1].x && Clicks[0].y > Clicks[1].y) {
-             
-                Q.drawRect(Clicks[0].x,Clicks[1].y,Clicks[1].x - Clicks[0].x,Clicks[0].y -
-                    Clicks[1].y);
-            }
-            
-            Clicks = [];
-            console.log(Q.Sprites);
-        }   
+                context.closePath();
+                context.save();
+                context.beginPath();
+                Q.drawStar(Clicks[0].x,Clicks[0].y,50);
+                context.restore();
+                Clicks = [];
+                console.log(Q.Sprites); 
+            }  
+        }
     });
     
     return Ben;
