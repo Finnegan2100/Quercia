@@ -4,6 +4,7 @@ var Quercia = (function(canvasId) {
     var canvas = document.getElementById(canvasId),
         context = canvas.getContext("2d"),
         DYNAMIC_MODE = "";
+        undefCounter = 1;
         Clicks = [];
     
     var Ben = {
@@ -688,6 +689,13 @@ var Quercia = (function(canvasId) {
             
             for (var i in this.Sprites) { 
         
+                if (this.Sprites[i].id === undefined) {
+                    this.Sprites[i].id = "undef" + undefCounter;
+                    console.log(this.Sprites[i].id);
+                    undefCounter++;
+                    
+                }
+                
                 switch (this.Sprites[i].type) {
                        
                     case "image":
