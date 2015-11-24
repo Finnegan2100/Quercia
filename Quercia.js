@@ -789,6 +789,11 @@ var Quercia = (function(canvasId) {
             console.log("BEGIN ADDING STAR COORDINATES");
             DYNAMIC_MODE = "STAR";
             Clicks = [];
+        }
+        if (evt.keyCode === 67) {
+            console.log("BEGIN ADDING CIRCLE COORDINATES");
+            DYNAMIC_MODE = "CIRCLE";
+            Clicks = [];
         } 
         if (evt.keyCode === 85) {
             console.log("q!");
@@ -846,8 +851,17 @@ var Quercia = (function(canvasId) {
                 context.closePath();
                 context.save();
                 context.beginPath();
-                Q.drawStar(Clicks[0].x,Clicks[0].y,50);
+                Q.drawStar(Clicks[0].x,Clicks[0].y,Math.abs(Clicks[0].x - Clicks[1].x));
                 context.restore();
+                Clicks = [];
+                console.log(Q.Sprites); 
+            }  
+        }
+          if (DYNAMIC_MODE === "CIRCLE") {
+       
+            if (Clicks.length === 2) {
+                
+                Q.drawCircle(Clicks[0].x,Clicks[0].y,Math.abs(Clicks[0].x - Clicks[1].x));
                 Clicks = [];
                 console.log(Q.Sprites); 
             }  
