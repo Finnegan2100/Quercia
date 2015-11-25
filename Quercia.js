@@ -6,12 +6,16 @@ var Quercia = (function(canvasId) {
         DYNAMIC_MODE = "";
         undefCounter = 1;
         Clicks = [];
+        Mouse = {
+            w: 1,
+            h: 1
+        };
     
     var Ben = {
         
         Sprites: [],
         Images: [],
-        
+
         
         init: function(w,h,color,centered,border,borderWidth,borderColor) {
             
@@ -344,7 +348,7 @@ var Quercia = (function(canvasId) {
             this.render();
         },
         getCenterX: function(id) {
-            
+
             for (var i in this.Sprites) {
                 if (this.Sprites[i].id === id) {
                     
@@ -431,8 +435,26 @@ var Quercia = (function(canvasId) {
                 } 
             }   
             else {
-                    return false;
-                }
+                return false;
+            }
+        },
+        checkCollisionWithMouse: function(s1) {
+            
+            var vx = Mouse.x - Quercia.getCenterX(s1),
+                vy = Mouse.y - Quercia.getCenterY(s1),
+            combinedHalfWidths = Mouse.w + Quercia.getHalfWidth(s1),
+            combinedHalfHeights = Mouse.y + Quercia.getHalfHeight(s1);
+
+             if (Math.abs(vx) < combinedHalfWidths) {
+                if (Math.abs(vy) < combinedHalfHeights) {
+                    //return true;
+                    this.setSpriteAttribute(s1,"color","#f00");
+                } 
+            }   
+            else {
+                //return false;
+                this.setSpriteAttribute(s1,"color","#ff0");
+            }
         },
         createUpdateLoop: function(ms) {
         
@@ -815,15 +837,29 @@ var Quercia = (function(canvasId) {
             Q.render();
         }   
     });
-    addEventListener("click",function onClick(evt) {
+    addEventListener("mousemove",function onMouseMove(evt) {
+    
+        var canvas = document.getElementById("myCanvas"),
         
-        var x = evt.x;
-        var y = evt.y;
-
-        var canvas = document.getElementById("myCanvas");
+        x = evt.x,
+        y = evt.y;
 
         x -= canvas.offsetLeft;
         y -= canvas.offsetTop;
+        
+        Mouse.x = x;
+        Mouse.y = y;
+    
+    });    
+    addEventListener("click",function onClick(evt) {
+        
+        var canvas = document.getElementById("myCanvas");
+
+            x = evt.x;
+            y = evt.y;
+
+            x -= canvas.offsetLeft;
+            y -= canvas.offsetTop;
         
         var coords = {"x": x,"y": y};
         Clicks.push(coords);
@@ -903,14 +939,17 @@ window.onresize=function(){Quercia.init()};
 // EXAMPLES....
 
 Q.init(760,300,"rgb(33,00,330)",true,true,10,"#3bf");
-Q.drawRect(200,100,40,70,"#dd1","myRect1");
 
 
-//Q.scale(1.7,1.7);
-//Q.rotate(30);
+loop();
 
-console.log(Q.checkCollision("myRect1","myRect2"));
-console.log(Q.Sprites);
+function loop() {
+    
+    setTimeout(loop,10);
+    Q.clearCanvas();
+    Q.drawRect(200,100,40,70,"#dd1","myRect1");
+    console.log(Q.checkCollisionWithMouse("myRect1"));
+}
 
 
 
