@@ -85,6 +85,11 @@ var Quercia = (function(canvasId) {
         },
         drawLine: function (x1,y1,x2,y2,width, color) {
             
+            if (color === undefined && this.Sprites.length >= 1) {
+                color = this.Sprites[this.Sprites.length - 1].color;
+            } else if (this.Sprites.length === 0) {
+                color = "#000";   
+            }
             context.save();
             context.strokeStyle = color;
             context.lineWidth = width;
@@ -447,13 +452,11 @@ var Quercia = (function(canvasId) {
 
              if (Math.abs(vx) < combinedHalfWidths) {
                 if (Math.abs(vy) < combinedHalfHeights) {
-                    //return true;
-                    this.setSpriteAttribute(s1,"color","#f00");
+                    return true;
                 } 
             }   
             else {
-                //return false;
-                this.setSpriteAttribute(s1,"color","#ff0");
+                return false;
             }
         },
         createUpdateLoop: function(ms) {
@@ -940,7 +943,12 @@ window.onresize=function(){Quercia.init()};
 
 Q.init(760,300,"rgb(33,00,330)",true,true,10,"#3bf");
 
+//Q.drawRect(400,200,20,20,"#0f0","myRect1");
+Q.drawLine(300,10,200,20,2);
+Q.drawLine(100,100,200,200,4);
 
+
+/*
 loop();
 
 function loop() {
@@ -950,7 +958,7 @@ function loop() {
     Q.drawRect(200,100,40,70,"#dd1","myRect1");
     console.log(Q.checkCollisionWithMouse("myRect1"));
 }
-
+*/
 
 
 
