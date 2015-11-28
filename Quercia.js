@@ -83,13 +83,16 @@ var Quercia = (function(canvasId) {
         keyDown: function() {
             console.log("key pressed!");  
         },
-        drawLine: function (x1,y1,x2,y2,width, color) {
+        drawLine: function (x1,y1,x2,y2,width, color, name) {
             
-            if (color === undefined && this.Sprites.length >= 1) {
+            /*
+            if (this.color === undefined && this.Sprites.length >= 1) {
                 color = this.Sprites[this.Sprites.length - 1].color;
             } else if (this.Sprites.length === 0) {
                 color = "#000";   
             }
+            */
+            /*
             context.save();
             context.strokeStyle = color;
             context.lineWidth = width;
@@ -97,6 +100,13 @@ var Quercia = (function(canvasId) {
             context.lineTo(x2,y2);
             context.stroke();
             context.restore();
+            */
+            //console.log(color);
+             var line = {id: name, x1: x1, y1: y1, x2: x2, y2: y2, 
+                        color: color, width: width, type: "line",
+                         order: this.Sprites.length};
+            this.Sprites.push(line); 
+            this.render();
                 
         },
         drawCurve: function (x1,y1,x2,y2,x3,y3,curveType,width,color) {
@@ -722,6 +732,30 @@ var Quercia = (function(canvasId) {
                 }
                 
                 switch (this.Sprites[i].type) {
+                        
+                        
+                    case "line":
+                        
+                    var x = this.Sprites[i].order;
+                    var a01 = this.Sprites[x];
+                       
+                    console.log(a01);    
+                    /*    
+                     if (a01.color === undefined && this.Sprites.length >= 1) {
+                        a01.color = this.Sprites[this.Sprites.length - 1].a01.color;
+                    } else if (this.Sprites.length === 0) {
+                        a01.color = "#000";   
+                    }
+                    */
+            
+                    context.save();
+                    context.strokeStyle = a01.color;
+                    context.lineWidth = a01.width;
+                    context.moveTo(a01.x1,a01.y1);
+                    context.lineTo(a01.x2,a01.y2);
+                    context.stroke();
+                    context.restore(); 
+                    break;    
                        
                     case "image":
                     var x = this.Sprites[i].order;
@@ -944,8 +978,9 @@ window.onresize=function(){Quercia.init()};
 Q.init(760,300,"rgb(33,00,330)",true,true,10,"#3bf");
 
 //Q.drawRect(400,200,20,20,"#0f0","myRect1");
-Q.drawLine(300,10,200,20,2);
-Q.drawLine(100,100,200,200,4);
+Q.drawLine(500,10,200,20,2,"#f00","myLine1");
+Q.drawLine(400,100,200,200,4,"#f00","myLine2");
+//Q.drawRect(0,0,200,200);
 
 
 /*
