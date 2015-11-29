@@ -5,3 +5,12 @@ canvas {
 body {
     margin: 0px;
 }
+div {
+    text-align: center;
+}
+#textBox {
+    width: 300px;
+}
+#coords {
+    width: 100px;
+}

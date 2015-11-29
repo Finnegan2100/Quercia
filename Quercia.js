@@ -847,28 +847,35 @@ var Quercia = (function(canvasId) {
     
     addEventListener("keydown",function keyDown(evt) {
         
+        
+        var textArea = document.getElementById("textBox");
         if (evt.keyCode === 82) {
-            console.log("BEGIN ADDING RECTANGLE COORDINATES");
+            textArea.value = "";
+            textArea.value += "BEGIN ADDING RECTANGLE COORDINATES";
             DYNAMIC_MODE = "RECT";
             Clicks = [];
         } 
         if (evt.keyCode === 83) {
-            console.log("BEGIN ADDING STAR COORDINATES");
+            textArea.value = "";
+            textArea.value += "BEGIN ADDING STAR COORDINATES";
             DYNAMIC_MODE = "STAR";
             Clicks = [];
         }
         if (evt.keyCode === 67) {
-            console.log("BEGIN ADDING CIRCLE COORDINATES");
+            textArea.value = "";
+            textArea.value += "BEGIN ADDING CIRCLE COORDINATES";
             DYNAMIC_MODE = "CIRCLE";
             Clicks = [];
         } 
         if (evt.keyCode === 76) {
-            console.log("BEGIN ADDING LINE COORDINATES");
+            textArea.value = "";
+            textArea.value += "BEGIN ADDING LINE COORDINATES";
             DYNAMIC_MODE = "LINE";
             Clicks = [];
         } 
         if (evt.keyCode === 85) {
-            console.log("q!");
+            textArea.value = "";
+            textArea.value += "DELETE";
             Q.Sprites.pop();
             Clicks.pop();
             Q.render();
@@ -891,6 +898,8 @@ var Quercia = (function(canvasId) {
     addEventListener("click",function onClick(evt) {
         
         var canvas = document.getElementById("myCanvas");
+        var coordsBox = document.getElementById("coords");
+        var coordsBox2 = document.getElementById("coords2");
 
             x = evt.x;
             y = evt.y;
@@ -900,6 +909,12 @@ var Quercia = (function(canvasId) {
         
         var coords = {"x": x,"y": y};
         Clicks.push(coords);
+        coordsBox.value = " ";
+        coordsBox.value += Clicks[0].x + " " + Clicks[0].y;
+        coordsBox2.value = " ";
+        coordsBox2.value += Clicks[1].x + " " + Clicks[1].y;
+        
+        //coordsBox.value += coords.y;
         
         if (DYNAMIC_MODE === "RECT") {
        
@@ -977,9 +992,7 @@ window.onresize=function(){Quercia.init()};
 
 Q.init(760,300,"rgb(33,00,330)",true,true,10,"#3bf");
 
-//Q.drawRect(400,200,20,20,"#0f0","myRect1");
-Q.drawLine(500,10,200,20,2,"#f00","myLine1");
-Q.drawLine(400,100,200,200,4,"#f00","myLine2");
+
 //Q.drawRect(0,0,200,200);
 
 
