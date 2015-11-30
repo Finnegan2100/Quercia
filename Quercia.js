@@ -447,7 +447,9 @@ var Quercia = (function(canvasId) {
              if (Math.abs(vx) < combinedHalfWidths) {
                 if (Math.abs(vy) < combinedHalfHeights) {
                     return true;
-                } 
+                } else {
+                    return false;
+                }
             }   
             else {
                 return false;
@@ -457,13 +459,15 @@ var Quercia = (function(canvasId) {
             
             var vx = Mouse.x - Quercia.getCenterX(s1),
                 vy = Mouse.y - Quercia.getCenterY(s1),
-            combinedHalfWidths = Mouse.w + Quercia.getHalfWidth(s1),
-            combinedHalfHeights = Mouse.y + Quercia.getHalfHeight(s1);
-
+            combinedHalfWidths = Mouse.w + Math.round(Quercia.getHalfWidth(s1)),
+            combinedHalfHeights = Mouse.h + Math.round(Quercia.getHalfHeight(s1));
+            console.log(vx,vy,combinedHalfWidths,combinedHalfHeights);
              if (Math.abs(vx) < combinedHalfWidths) {
                 if (Math.abs(vy) < combinedHalfHeights) {
                     return true;
-                } 
+                } else {
+                    return false;
+                }
             }   
             else {
                 return false;
@@ -726,13 +730,10 @@ var Quercia = (function(canvasId) {
         
                 if (this.Sprites[i].id === undefined) {
                     this.Sprites[i].id = "undef" + undefCounter;
-                    console.log(this.Sprites[i].id);
                     undefCounter++;
-                    
                 }
                 
                 switch (this.Sprites[i].type) {
-                        
                         
                     case "line":
                         
@@ -893,6 +894,14 @@ var Quercia = (function(canvasId) {
         
         Mouse.x = x;
         Mouse.y = y;
+        
+         for (var i = 0; i < Q.Sprites.length; i++) {
+            
+             console.log(Q.Sprites[i]);
+            if (Q.Sprites.length >= 1) {
+                console.log(Q.checkCollisionWithMouse(Q.Sprites[i].id));   
+            }
+        }
     
     });    
     addEventListener("click",function onClick(evt) {
@@ -942,7 +951,6 @@ var Quercia = (function(canvasId) {
                 }
 
                 Clicks = [];
-                console.log(Q.Sprites);
             }  
         }
         if (DYNAMIC_MODE === "STAR") {
