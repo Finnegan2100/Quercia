@@ -750,11 +750,13 @@ var Quercia = (function(canvasId) {
                     */
             
                     //context.save();
+                    context.beginPath();
                     context.strokeStyle = a01.color;
                     context.lineWidth = a01.width;
                     context.moveTo(a01.x1,a01.y1);
                     context.lineTo(a01.x2,a01.y2);
                     context.stroke();
+                    context.closePath();
                     //context.restore(); 
                     break;    
                        
@@ -807,13 +809,13 @@ var Quercia = (function(canvasId) {
                     var a3 = this.Sprites[x];
         			
 					
-                   	//context.save();
+                    context.save();
                     context.beginPath();
                     context.fillStyle = a3.color;
                     context.arc(a3.x,a3.y,a3.diameter / 2,0,2 * Math.PI);
                     context.fill();
                     context.closePath();
-                   	//context.restore();
+                   	context.restore();
 					
                     break;
            
