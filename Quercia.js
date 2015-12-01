@@ -146,6 +146,7 @@ var Quercia = (function(canvasId) {
                        order: this.Sprites.length};
             
             this.Sprites.push(rect);
+            console.log(this.Sprites);
             this.render();
         },
         drawTri: function(x1,y1,x2,y2,x3,y3,color, name) {
@@ -335,7 +336,7 @@ var Quercia = (function(canvasId) {
             
         },
         clearCanvas: function() {
-            
+            console.log("clear canvas called");
             context.clearRect(0,0,canvas.width,canvas.height);
         },
 		setGlobalOpacity: function(ga) {
@@ -736,7 +737,6 @@ var Quercia = (function(canvasId) {
                 switch (this.Sprites[i].type) {
                         
                     case "line":
-                        
                     var x = this.Sprites[i].order;
                     var a01 = this.Sprites[x];
                        
@@ -749,13 +749,13 @@ var Quercia = (function(canvasId) {
                     }
                     */
             
-                    context.save();
+                    //context.save();
                     context.strokeStyle = a01.color;
                     context.lineWidth = a01.width;
                     context.moveTo(a01.x1,a01.y1);
                     context.lineTo(a01.x2,a01.y2);
                     context.stroke();
-                    context.restore(); 
+                    //context.restore(); 
                     break;    
                        
                     case "image":
@@ -790,14 +790,15 @@ var Quercia = (function(canvasId) {
                     var x = this.Sprites[i].order;
                     var a2 = this.Sprites[x];
                     
-                    context.save();
+                    //context.save();
                     context.beginPath();
                     context.fillStyle = a2.color;
                     context.fillRect(a2.x,a2.y,a2.w,a2.h);
-                    this.scale(this.Sprites[i].scaleX,this.Sprites[i].scaleY);
-                    this.rotate(this.Sprites[i].rotation);
-                    context.restore();
-                    context.fill();
+                    //this.scale(this.Sprites[i].scaleX,this.Sprites[i].scaleY);
+                    //this.rotate(this.Sprites[i].rotation);
+                    //context.restore();
+                    context.closePath();
+                    //context.fill();
                     break;
                         
                     case "circle":
@@ -894,15 +895,6 @@ var Quercia = (function(canvasId) {
         
         Mouse.x = x;
         Mouse.y = y;
-        
-         for (var i = 0; i < Q.Sprites.length; i++) {
-            
-             console.log(Q.Sprites[i]);
-            if (Q.Sprites.length >= 1) {
-                console.log(Q.checkCollisionWithMouse(Q.Sprites[i].id));   
-            }
-        }
-    
     });    
     addEventListener("click",function onClick(evt) {
         
@@ -924,6 +916,12 @@ var Quercia = (function(canvasId) {
         coordsBox2.value += Clicks[1].x + " " + Clicks[1].y;
         
         //coordsBox.value += coords.y;
+           for (var i = 0; i < Q.Sprites.length; i++) {
+
+            if (Q.Sprites.length >= 1) {
+                console.log(Q.checkCollisionWithMouse(Q.Sprites[i].id));   
+            }
+        }
         
         if (DYNAMIC_MODE === "RECT") {
        
