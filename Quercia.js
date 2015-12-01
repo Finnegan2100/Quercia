@@ -807,11 +807,13 @@ var Quercia = (function(canvasId) {
                     var a3 = this.Sprites[x];
         			
 					
-                   	context.save();	
+                   	//context.save();
+                    context.beginPath();
                     context.fillStyle = a3.color;
                     context.arc(a3.x,a3.y,a3.diameter / 2,0,2 * Math.PI);
                     context.fill();
-                   	context.restore();
+                    context.closePath();
+                   	//context.restore();
 					
                     break;
            
