@@ -727,12 +727,16 @@ var Quercia = (function(canvasId) {
             
             this.clearCanvas();
             
+            var color = document.getElementById("color");
+                
             for (var i in this.Sprites) { 
         
                 if (this.Sprites[i].id === undefined) {
                     this.Sprites[i].id = "undef" + undefCounter;
                     undefCounter++;
                 }
+                
+                this.Sprites[i].color = color.value.toString();
                 
                 switch (this.Sprites[i].type) {
                         
