@@ -15,6 +15,8 @@ var Quercia = (function(canvasId) {
         
         Sprites: [],
         Images: [],
+        
+        color: document.getElementById("color"),
 
         
         init: function(w,h,color,centered,border,borderWidth,borderColor) {
@@ -103,7 +105,7 @@ var Quercia = (function(canvasId) {
             */
             //console.log(color);
              var line = {id: name, x1: x1, y1: y1, x2: x2, y2: y2, 
-                        color: color, width: width, type: "line",
+                        color: Q.color.value.toString(), width: width, type: "line",
                          order: this.Sprites.length};
             this.Sprites.push(line); 
             this.render();
@@ -133,7 +135,7 @@ var Quercia = (function(canvasId) {
         drawCircle: function(x,y,diameter,color,name) {
         
              var circle = {id: name, x: x, y: y, diameter: diameter, 
-                        color: color, type: "circle",
+                        color: Q.color.value.toString(), type: "circle",
                          order: this.Sprites.length};
             
             this.Sprites.push(circle); 
@@ -141,8 +143,9 @@ var Quercia = (function(canvasId) {
         },
         drawRect: function(x,y,w,h,color,name) {
         
+            //this.Sprites[i].color = Q.color.value.toString();
             var rect = {id: name, x: x, y: y, w: w, h: h, 
-                        color: color, type: "rect",
+                        color: Q.color.value.toString(), type: "rect",
                        order: this.Sprites.length};
             
             this.Sprites.push(rect);
@@ -162,7 +165,7 @@ var Quercia = (function(canvasId) {
         drawStar: function(x,y,length,color,name) {
       
             var star = {x: x, y: y, length: length, 
-                        color: color, id: name,  type: "star",
+                        color: Q.color.value.toString(), id: name,  type: "star",
                         order: this.Sprites.length};
             
             this.Sprites.push(star);
@@ -726,9 +729,7 @@ var Quercia = (function(canvasId) {
         render: function() {
             
             this.clearCanvas();
-            
-            var color = document.getElementById("color");
-                
+                    
             for (var i in this.Sprites) { 
         
                 if (this.Sprites[i].id === undefined) {
@@ -736,8 +737,7 @@ var Quercia = (function(canvasId) {
                     undefCounter++;
                 }
                 
-                this.Sprites[i].color = color.value.toString();
-                
+                    
                 switch (this.Sprites[i].type) {
                         
                     case "line":
@@ -915,8 +915,12 @@ var Quercia = (function(canvasId) {
 
             x -= canvas.offsetLeft;
             y -= canvas.offsetTop;
-        
-        var coords = {"x": x,"y": y};
+        if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
+            var coords = {"x": x,"y": y};
+        } else {
+            coordsBox.value = " "; 
+            coordsBox2.value = " ";
+        }
         Clicks.push(coords);
         coordsBox.value = " ";
         coordsBox.value += Clicks[0].x + " " + Clicks[0].y;
