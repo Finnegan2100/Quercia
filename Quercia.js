@@ -17,6 +17,7 @@ var Quercia = (function(canvasId) {
         Images: [],
         
         color: document.getElementById("color"),
+        lineWidth: document.getElementById("lineWidth"),
 
         
         init: function(w,h,color,centered,border,borderWidth,borderColor) {
@@ -56,7 +57,7 @@ var Quercia = (function(canvasId) {
                 canvas.style.marginLeft = (halfWindowWidth) - 
                     (halfCanvasWidth / 2).toString() + "px";
                 canvas.style.marginTop = (halfWindowHeight) - 
-                    (halfCanvasHeight / 2).toString() + "px";
+                    (halfCanvasHeight / 1.2).toString() + "px";
             } else {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
@@ -105,7 +106,7 @@ var Quercia = (function(canvasId) {
             */
             //console.log(color);
              var line = {id: name, x1: x1, y1: y1, x2: x2, y2: y2, 
-                        color: Q.color.value.toString(), width: width, type: "line",
+                        color: Q.color.value.toString(), width: Q.lineWidth.value, type: "line",
                          order: this.Sprites.length};
             this.Sprites.push(line); 
             this.render();
@@ -752,7 +753,7 @@ var Quercia = (function(canvasId) {
                         a01.color = "#000";   
                     }
                     */
-            
+                    console.log(Q.lineWidth);
                     //context.save();
                     context.beginPath();
                     context.strokeStyle = a01.color;
