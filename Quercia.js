@@ -150,7 +150,6 @@ var Quercia = (function(canvasId) {
                        order: this.Sprites.length};
             
             this.Sprites.push(rect);
-            console.log(this.Sprites);
             this.render();
         },
         drawTri: function(x1,y1,x2,y2,x3,y3,color, name) {
@@ -340,7 +339,6 @@ var Quercia = (function(canvasId) {
             
         },
         clearCanvas: function() {
-            console.log("clear canvas called");
             context.clearRect(0,0,canvas.width,canvas.height);
         },
 		setGlobalOpacity: function(ga) {
@@ -466,7 +464,7 @@ var Quercia = (function(canvasId) {
                 vy = Mouse.y - Quercia.getCenterY(s1),
             combinedHalfWidths = Mouse.w + Math.round(Quercia.getHalfWidth(s1)),
             combinedHalfHeights = Mouse.h + Math.round(Quercia.getHalfHeight(s1));
-            console.log(vx,vy,combinedHalfWidths,combinedHalfHeights);
+            
              if (Math.abs(vx) < combinedHalfWidths) {
                 if (Math.abs(vy) < combinedHalfHeights) {
                     return true;
@@ -744,8 +742,7 @@ var Quercia = (function(canvasId) {
                     case "line":
                     var x = this.Sprites[i].order;
                     var a01 = this.Sprites[x];
-                       
-                    console.log(a01);    
+       
                     /*    
                      if (a01.color === undefined && this.Sprites.length >= 1) {
                         a01.color = this.Sprites[this.Sprites.length - 1].a01.color;
@@ -753,7 +750,6 @@ var Quercia = (function(canvasId) {
                         a01.color = "#000";   
                     }
                     */
-                    console.log(Q.lineWidth);
                     //context.save();
                     context.beginPath();
                     context.strokeStyle = a01.color;
@@ -926,7 +922,9 @@ var Quercia = (function(canvasId) {
         coordsBox.value = " ";
         coordsBox.value += Clicks[0].x + " " + Clicks[0].y;
         coordsBox2.value = " ";
-        coordsBox2.value += Clicks[1].x + " " + Clicks[1].y;
+        if (Clicks.length === 2) {
+            coordsBox2.value += Clicks[1].x + " " + Clicks[1].y;
+        }
         
         //coordsBox.value += coords.y;
            for (var i = 0; i < Q.Sprites.length; i++) {
