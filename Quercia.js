@@ -858,25 +858,25 @@ var Quercia = (function(canvasId) {
         var textArea = document.getElementById("textBox");
         if (evt.keyCode === 82) {
             textArea.value = "";
-            textArea.value += "BEGIN ADDING RECTANGLE COORDINATES";
+            textArea.value += "RECTANGLE";
             DYNAMIC_MODE = "RECT";
             Clicks = [];
         } 
         if (evt.keyCode === 83) {
             textArea.value = "";
-            textArea.value += "BEGIN ADDING STAR COORDINATES";
+            textArea.value += "STAR";
             DYNAMIC_MODE = "STAR";
             Clicks = [];
         }
         if (evt.keyCode === 67) {
             textArea.value = "";
-            textArea.value += "BEGIN ADDING CIRCLE COORDINATES";
+            textArea.value += "CIRCLE";
             DYNAMIC_MODE = "CIRCLE";
             Clicks = [];
         } 
         if (evt.keyCode === 76) {
             textArea.value = "";
-            textArea.value += "BEGIN ADDING LINE COORDINATES";
+            textArea.value += "LINE";
             DYNAMIC_MODE = "LINE";
             Clicks = [];
         } 
@@ -919,11 +919,14 @@ var Quercia = (function(canvasId) {
             coordsBox2.value = " ";
         }
         Clicks.push(coords);
-        coordsBox.value = " ";
-        coordsBox.value += Clicks[0].x + " " + Clicks[0].y;
-        coordsBox2.value = " ";
-        if (Clicks.length === 2) {
-            coordsBox2.value += Clicks[1].x + " " + Clicks[1].y;
+        if (DYNAMIC_MODE !== "") {
+            coordsBox.value = " ";
+            coordsBox.value += Clicks[0].x + "  " + Clicks[0].y;
+            coordsBox2.value = " ";
+        
+            if (Clicks.length === 2) {
+                coordsBox2.value += Clicks[1].x + "  " + Clicks[1].y;
+            }
         }
         
         //coordsBox.value += coords.y;

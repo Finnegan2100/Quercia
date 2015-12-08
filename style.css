@@ -6,16 +6,36 @@ canvas {
 body {
     margin: 0px;
     font-family: arial; 
-    background-color: #f30;
-  
-        
+    background-color: #f30;       
 }
 div {
     text-align: center;
 }
 #textBox {
-    width: 300px;
+    width: 110px;
+    height: 30px;
+    text-align: center;
+    font-family: verdana;
+    font-weight: 600;
+    background-color: #ddd;
+    border-color: #333;
+    border-width: 2px;
 }
-#coords {
-    width: 100px;
+#coords, #coords2 {
+    width: 110px;
+    height: 30px;
+    text-align: center;
+    font-family: verdana;
+    color: #fff;
+    background-color: #bbb;
+    border-color: #333;
+    font-weight: 600;
+    border-width: 3px;
+}
+#color, #lineWidth {
+    width: 110px; 
+    text-align: center;
+}
+form {
+    text-align: center;
 }
