@@ -18,12 +18,13 @@
             <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" 
                             data-toggle="dropdown">File
-                    </button>
+                    
                     <ul class="dropdown-menu">
                         <li><a href="#">HTML</a></li>
                         <li><a href="#">CSS</a></li>
                         <li><a href="#">JavaScript</a></li>
                     </ul>
+                        
                     <button class="btn btn-primary dropdown-toggle" type="button" 
                             data-toggle="dropdown">Sprites
                    </button>
@@ -66,12 +67,16 @@
                     </ul>
             </div>
                 
+        
+                
             <!--    
                 <div class="input-group">
   <span class="input-group-addon" id="basic-addon1">@</span>
   <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
 </div>
 -->
+                
+ 
                
                 <form>
                     Color:<br>
@@ -89,10 +94,17 @@
                
         <textarea readonly id="textBox" style="resize:none; overflow:hidden"></textarea>
         <textarea readonly id="coords" style="resize:none; overflow:hidden"></textarea>
-        <textarea readonly id="coords2" style="resize:none; overflow:hidden"></textarea>          
-            </div>    
-
+        <textarea readonly id="coords2" style="resize:none; overflow:hidden"></textarea> 
+        
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default" id="undo">UNDO</button>
+            </div>      
+        </div>    
+                    
+  
 			<canvas id="myCanvas"></canvas>
+                
+                   
 			<script src="Quercia.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 		</body>

@@ -901,11 +901,13 @@ var Quercia = (function(canvasId) {
         Mouse.x = x;
         Mouse.y = y;
     });    
+  
     addEventListener("click",function onClick(evt) {
         
         var canvas = document.getElementById("myCanvas");
         var coordsBox = document.getElementById("coords");
         var coordsBox2 = document.getElementById("coords2");
+        var undo = document.getElementById("undo");
 
             x = evt.x;
             y = evt.y;
